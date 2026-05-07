@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresh Bus - Flying Audit Form</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="app">
+        <header class="app-header">
+            <div class="header-content-compact" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <div class="header-left" style="flex: 1; display: flex; justify-content: flex-start; align-items: center; gap: 1rem;">
+                    <img src="logo.webp" alt="FreshBus Logo" class="brand-logo" style="height: 120px; width: auto;">
+                </div>
+                
+                <div class="header-center" style="display: flex; justify-content: center; align-items: center; flex: 2;">
+                    <h1 class="header-title-compact" style="font-size: 1.8rem; text-transform: capitalize; white-space: nowrap;">Flying Audit Form</h1>
+                </div>
+                
+                <div class="header-actions-right" style="flex: 1; display: flex; justify-content: flex-end; align-items: center; gap: 1.25rem;">
+                    <div class="progress-container-compact" id="header-progress" style="display: none;">
+                        <div class="progress-stats">
+                            <span id="progress-percent">0%</span>
+                            <span id="progress-text">Sec 1/13</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div id="progress-bar-fill" style="width: 0%;"></div>
+                        </div>
+                        <div id="motivational-msg" style="font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; text-align: center;"></div>
+                    </div>
+                    
+                    <div class="expiry-warning" id="expiry-notice" style="padding: 0.6rem 1rem; font-size: 1rem;">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                        <span id="expiry-timer">48:00:00</span>
+                    </div>
+                    
+                    <button id="mobile-menu-btn" class="mobile-menu-btn" title="Toggle Menu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <button id="theme-toggle" class="theme-toggle" title="Toggle Dark/Light Mode" style="width: 44px; height: 44px; font-size: 1.2rem;">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="app-body">
+            <aside id="sidebar" class="app-sidebar">
+                <div class="sidebar-top">
+                    <h3 style="font-size: 1rem; color: var(--primary); font-weight: 800;">Audit Sections</h3>
+                    <button id="sidebar-toggle" class="sidebar-toggle" title="Toggle Sidebar" style="background: var(--bg-light); border: 1px solid var(--border); border-radius: 6px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-main);">
+                        <i id="sidebar-icon" class="fa-solid fa-xmark" style="font-size: 0.9rem;"></i>
+                    </button>
+                </div>
+                <nav class="sidebar-nav">
+                    <ul id="sidebar-menu">
+                        <!-- Injected by JS -->
+                    </ul>
+                </nav>
+            </aside>
+
+            <main class="form-container" id="main-content">
+                <form id="audit-form" novalidate>
+                    <!-- Sections will be injected here by JS -->
+                    <div id="section-render"></div>
+                </form>
+            </main>
+                <footer class="app-footer" id="app-footer" style="display:none;">
+                    <div class="nav-buttons">
+                        <button type="button" id="btn-back" class="btn btn-secondary btn-compact" style="display: none;">
+                            <i class="fa-solid fa-arrow-left"></i> Back
+                        </button>
+                        <div class="spacer"></div>
+                        <button type="button" id="btn-next" class="btn btn-primary btn-compact">
+                            Next <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <button type="button" id="btn-submit" class="btn btn-submit btn-compact" style="display: none;">
+                            Submit Audit <i class="fa-solid fa-check-double"></i>
+                        </button>
+                    </div>
+                </footer>
+        </div>
+
+        <!-- Preview Modal -->
+        <div id="preview-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Review Your Audit</h2>
+                <div id="preview-data"></div>
+                <div class="modal-actions">
+                    <button id="confirm-submit" class="btn btn-submit">Confirm & Finalize</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Message -->
+        <div id="success-screen" class="success-screen" style="display: none;">
+            <div class="success-content">
+                <div class="success-icon">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <h1>Outstanding Job!</h1>
+                <p>Your mystery ride audit has been successfully submitted.</p>
+                <div class="reward-info">
+                    <p>Wait for the audit results and rewards. Our customer care will be reaching out to you in 48 hrs if you are eligible for the reward.</p>
+                </div>
+                <button onclick="location.reload()" class="btn btn-primary">Submit Another</button>
+            </div>
+        </div>
+
+        <!-- Auto-save notification -->
+        <div id="autosave-toast" class="toast">Draft Saved <i class="fa-solid fa-cloud-arrow-up"></i></div>
+    </div>
+
+    <script src="script.js?v=1.1"></script>
+</body>
+</html>
