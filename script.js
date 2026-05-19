@@ -3487,7 +3487,8 @@ class FreshBusAudit {
                 const icon = document.getElementById('sidebar-icon');
                 if (icon) {
                     if (window.innerWidth <= 768) {
-                        icon.className = 'fa-solid fa-xmark';
+                        // On mobile, this toggle should behave like close
+                        document.getElementById('app').classList.remove('sidebar-open');
                     } else {
                         icon.className = isCollapsed ? 'fa-solid fa-bars-staggered' : 'fa-solid fa-xmark';
                     }
@@ -3497,8 +3498,14 @@ class FreshBusAudit {
 
         if (this.elements.mobileMenuBtn) {
             this.elements.mobileMenuBtn.addEventListener('click', () => {
-                const app = document.getElementById('app');
-                app.classList.toggle('sidebar-collapsed');
+                document.getElementById('app').classList.toggle('sidebar-open');
+            });
+        }
+
+        const overlay = document.getElementById('sidebar-overlay');
+        if (overlay) {
+            overlay.addEventListener('click', () => {
+                document.getElementById('app').classList.remove('sidebar-open');
             });
         }
 
@@ -3665,21 +3672,19 @@ class FreshBusAudit {
         const sidebar = document.getElementById('sidebar');
         const sidebarToggle = document.getElementById('sidebar-toggle');
         const headerProgress = document.getElementById('header-progress');
-        const headerTitle = document.querySelector('.header-title-compact');
         const appFooter = document.getElementById('app-footer');
         const formContainer = document.getElementById('main-content');
-        const contentHeader = document.querySelector('.content-header');
 
-        if (sidebar) sidebar.style.display = 'flex';
-        if (sidebarToggle) sidebarToggle.style.display = 'flex';
-        if (contentHeader) contentHeader.style.display = 'none'; // Content header removed from HTML anyway
-        if (headerProgress) headerProgress.style.display = 'block';
-        if (headerTitle) headerTitle.style.display = 'block';
-        if (appFooter) appFooter.style.display = 'block';
         if (formContainer) {
+            formContainer.classList.remove('intro-mode');
             formContainer.style.display = 'block';
             formContainer.style.height = 'auto';
         }
+
+        if (sidebar && window.innerWidth > 768) sidebar.style.display = 'flex';
+        if (sidebarToggle && window.innerWidth > 768) sidebarToggle.style.display = 'flex';
+        if (headerProgress) headerProgress.style.display = 'block';
+        if (appFooter) appFooter.style.display = 'flex';
 
         this.renderSidebar();
 
@@ -3739,6 +3744,9 @@ class FreshBusAudit {
     goToStep(idx) {
         if (idx > this.currentStep && !this.validateCurrent()) return;
         this.currentStep = idx;
+        if (window.innerWidth <= 768) {
+            document.getElementById('app').classList.remove('sidebar-open');
+        }
         this.render();
         this.updateProgress();
     }
@@ -3752,52 +3760,59 @@ class FreshBusAudit {
         const appFooter = document.getElementById('app-footer');
         const formContainer = document.getElementById('main-content');
 
-        const contentHeader = document.querySelector('.content-header');
-
         if (sidebar) sidebar.style.display = 'none';
         if (sidebarToggle) sidebarToggle.style.display = 'none';
-        if (contentHeader) contentHeader.style.display = 'none';
         if (headerProgress) headerProgress.style.display = 'none';
         if (appFooter) appFooter.style.display = 'none';
+        
         if (formContainer) {
-            formContainer.style.display = 'flex';
-            formContainer.style.flexDirection = 'column';
-            formContainer.style.alignItems = 'center';
-            formContainer.style.justifyContent = 'center';
-            formContainer.style.height = '100%';
+            formContainer.classList.add('intro-mode');
         }
 
         const html = `
-            <div class="section-card intro-card" style="text-align: center; margin: auto; max-width: 600px;">
-                <div style="margin-bottom: 1rem; padding: 1rem 0;">
-                    <img src="freshbus_logo.png" alt="FreshBus" style="max-width: 280px; width: 100%; height: auto; object-fit: contain;"
+            <div class="section-card intro-card-content">
+                <div class="intro-logo-container">
+                    <img src="logo.webp" alt="FreshBus" class="intro-logo"
                          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                    <div style="display:none; align-items: center; justify-content: center; gap: 0.5rem; color: var(--primary); font-size: 2rem; font-weight: 900;">
+                    <div class="intro-logo-fallback">
                         🚌 FreshBus
                     </div>
                 </div>
-                <div class="section-title" style="margin-top: 0.5rem; margin-bottom: 1rem; justify-content: center; color: var(--primary);">Welcome Auditor! 👋</div>
-                <p style="margin-bottom: 1rem; color: var(--text-muted);">Welcome to the FreshBus Flying Audit program. Your detailed observations help us maintain world-class service standards.</p>
+                <h1 class="intro-welcome">Welcome Auditor! 👋</h1>
+                <p class="intro-text">Welcome to the FreshBus Flying Audit program. Your detailed observations help us maintain world-class service standards.</p>
                 
-                <div class="reward-highlight" style="margin: 1rem 0;">
-                    <i class="fa-solid fa-gift" style="font-size: 1.5rem;"></i>
+                <div class="reward-highlight">
+                    <i class="fa-solid fa-gift"></i>
                     <span>Fill out the audits with full honesty to be eligible for rewards!</span>
                 </div>
 
-                <div style="background: var(--bg-light); padding: 1rem; border-radius: 12px; margin-bottom: 1rem; border: 1px solid var(--border); text-align: left;">
-                    <h4 style="margin-bottom: 0.5rem;"><i class="fa-solid fa-camera"></i> Mandatory Audit Guidelines:</h4>
-                    <p style="font-size: 0.85rem; margin-bottom: 0.2rem;">• Use <strong>Timestamp Camera App</strong> for all media captures.</p>
-                    <p style="font-size: 0.85rem; margin-bottom: 0.2rem;">• Ensure photos/videos have proper <strong>Time Stamp</strong> and <strong>Geo-tagged Location</strong>.</p>
-                    <p style="font-size: 0.85rem;">• Available for Windows, Mac, iOS, and Android.</p>
+                <div class="guidelines-box">
+                    <h4><i class="fa-solid fa-camera"></i> Mandatory Audit Guidelines:</h4>
+                    <ul>
+                        <li>Use <strong>Timestamp Camera App</strong> for all media captures.</li>
+                        <li>Ensure photos/videos have proper <strong>Time Stamp</strong> and <strong>Geo-tagged Location</strong>.</li>
+                        <li>Available for Windows, Mac, iOS, and Android.</li>
+                    </ul>
                 </div>
 
-                <div style="background: var(--bg-light); padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem; border: 1px solid var(--border); text-align: left;">
-                    <h4 style="margin-bottom: 0.5rem; color: var(--primary);"><i class="fa-solid fa-star"></i> Star Rating Guide:</h4>
-                    <div style="display: grid; grid-template-columns: auto 1fr; gap: 0.2rem 1rem; align-items: center; font-size: 0.85rem;">
-                        <span style="color:#FF4757">1 Star</span> <span>Very Poor / Unacceptable</span>
-                        <span style="color:#FF4757">2 Stars</span> <span>Poor / Below Average</span>
-                        <span style="color:#FF4757">3 Stars</span> <span>Average / Acceptable</span>
-                        <span style="color:#58D68D">4 Stars</span> <span>Good / Above Average</span>
+                <div class="rating-guide-box">
+                    <h4><i class="fa-solid fa-star"></i> Star Rating Guide:</h4>
+                    <div class="rating-grid">
+                        <span class="r-1">1 Star</span> <span>Very Poor / Unacceptable</span>
+                        <span class="r-2">2 Stars</span> <span>Poor / Below Average</span>
+                        <span class="r-3">3 Stars</span> <span>Average / Acceptable</span>
+                        <span class="r-4">4 Stars</span> <span>Good / Above Average</span>
+                        <span class="r-5">5 Stars</span> <span>Excellent / Outstanding</span>
+                    </div>
+                </div>
+
+                <button onclick="window.app.nextStep()" class="btn btn-primary btn-large btn-start">
+                    Start My Audit <i class="fa-solid fa-play"></i>
+                </button>
+            </div>
+        `;
+        this.elements.renderArea.innerHTML = html;
+    }
                         <span style="color:#58D68D">5 Stars</span> <span>Excellent / Outstanding</span>
                     </div>
                 </div>
