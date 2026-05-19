@@ -5,6 +5,19 @@
 const ROOT_FOLDER = 'FreshBus_Audit_Media';
 const SHEET_ID = "1W42G9wS4D8rNd75zTtSO29B8hS1C3T3N-3u0FqFFuHg";
 
+function doGet() {
+  return HtmlService.createTemplateFromFile('index')
+      .evaluate()
+      .setTitle('FreshBus - Flying Audit Form')
+      .addMetaTag('viewport', 'width=device-width, initial-scale=1')
+      .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+function include(filename) {
+  return HtmlService.createHtmlOutputFromFile(filename)
+      .getContent();
+}
+
 function onOpen() {
   SpreadsheetApp.getUi().createMenu('✅ Audit Admin')
     .addItem('Validate Selected Row', 'validateRow')
