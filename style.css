@@ -198,6 +198,9 @@ body {
     flex: 1;
     overflow: hidden; /* Prevent body scroll, use container scroll */
     position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
 }
 
 .app-sidebar {
@@ -749,8 +752,10 @@ textarea:focus {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
+    padding-left: var(--sidebar-width);
+    transition: all 0.3s;
 }
 
 .btn {
@@ -1090,6 +1095,9 @@ textarea:focus {
 }
 
 @media (max-width: 768px) {
+    .nav-buttons {
+        padding-left: 0;
+    }
     :root {
         --header-height: 90px;
         --footer-height: 70px;
