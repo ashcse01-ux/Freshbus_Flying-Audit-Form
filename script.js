@@ -3919,10 +3919,10 @@ class FreshBusAudit {
                 questionHtml += `<div class="rating-inline-container" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; width: 100%; border-bottom: 1px solid var(--border); padding: 1.25rem 0;">`;
 
                 // Label (Moved inside for better flex control)
-                questionHtml += `<label class="question-label" style="margin-bottom: 0; flex: 1; min-width: 280px; font-weight: 700;">${q.label} ${q.required ? '<span class="required">*</span>' : ''}</label>`;
+                questionHtml += `<label class="question-label" style="margin-bottom: 0; flex: 1 1 200px; font-weight: 700;">${q.label} ${q.required ? '<span class="required">*</span>' : ''}</label>`;
 
                 // Stars Wrapper (Guaranteed fixed width for vertical symmetry)
-                questionHtml += `<div class="rating-wrapper-v2" style="display: flex; flex-direction: column; align-items: center; width: 220px; flex-shrink: 0;">`;
+                questionHtml += `<div class="rating-wrapper-v2" style="display: flex; flex-direction: column; align-items: center; flex: 0 0 250px; width: 100%; max-width: 100%;">`;
                 questionHtml += `<div class="star-rating-v2" id="rating_${q.id}">`;
                 const ratingVal = parseInt(val);
                 for (let i = 1; i <= 5; i++) {
@@ -4019,7 +4019,7 @@ class FreshBusAudit {
                         <input type="text" name="p_name_${p.id}" value="${p.name}" placeholder="Letters only" oninput="this.value = this.value.replace(/[^a-zA-Z\\s]/g, '')">
                     </div>
 
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem">
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem">
                         <div class="question-group">
                             <label class="question-label">Seat Type <span class="required">*</span></label>
                             <select name="p_seatType_${p.id}" onchange="window.app.handlePassengerSeatChange(${p.id}, this.value)">
