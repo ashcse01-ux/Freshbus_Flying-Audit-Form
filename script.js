@@ -3806,17 +3806,6 @@ class FreshBusAudit {
                     </div>
                 </div>
 
-                <button onclick="window.app.nextStep()" class="btn btn-primary btn-large btn-start">
-                    Start My Audit <i class="fa-solid fa-play"></i>
-                </button>
-            </div>
-        `;
-        this.elements.renderArea.innerHTML = html;
-    }
-                        <span style="color:#58D68D">5 Stars</span> <span>Excellent / Outstanding</span>
-                    </div>
-                </div>
-
                 <button type="button" class="btn btn-submit" style="width: 100%; justify-content: center; margin: 0; padding: 1rem;" onclick="window.app.nextStep()">
                     Start My Audit <i class="fa-solid fa-play"></i>
                 </button>
