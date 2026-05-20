@@ -3681,10 +3681,10 @@ class FreshBusAudit {
             formContainer.style.height = 'auto';
         }
 
-        if (sidebar && window.innerWidth > 768) sidebar.style.display = 'flex';
-        if (sidebarToggle && window.innerWidth > 768) sidebarToggle.style.display = 'flex';
-        if (headerProgress) headerProgress.style.display = 'block';
-        if (appFooter) appFooter.style.display = 'flex';
+        if (sidebar) sidebar.style.display = '';
+        if (sidebarToggle) sidebarToggle.style.display = '';
+        if (headerProgress) headerProgress.style.display = '';
+        if (appFooter) appFooter.style.display = '';
 
         this.renderSidebar();
 
@@ -3745,7 +3745,8 @@ class FreshBusAudit {
         if (idx > this.currentStep && !this.validateCurrent()) return;
         this.currentStep = idx;
         if (window.innerWidth <= 768) {
-            document.getElementById('app').classList.remove('sidebar-open');
+            const appBody = document.querySelector('.app-body');
+            if (appBody) appBody.classList.remove('sidebar-open');
         }
         this.render();
         this.updateProgress();
