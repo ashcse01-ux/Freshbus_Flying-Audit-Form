@@ -561,6 +561,8 @@ textarea:focus {
 .input-wrapper input {
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
+    flex: 1;
+    min-width: 0;
 }
 
 .input-wrapper:focus-within .input-prefix {
@@ -1167,7 +1169,7 @@ textarea:focus {
     }
 
     .progress-container-compact {
-        display: none; /* Hide in header, maybe show elsewhere later if needed */
+        display: none !important; /* Hide in header, maybe show elsewhere later if needed */
     }
 
     .expiry-warning {

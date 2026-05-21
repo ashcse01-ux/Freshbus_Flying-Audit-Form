@@ -3912,7 +3912,7 @@ class FreshBusAudit {
                 questionHtml += `<label class="question-label" style="margin-bottom: 0; flex: 1 1 200px; font-weight: 700;">${q.label} ${q.required ? '<span class="required">*</span>' : ''}</label>`;
 
                 // Stars Wrapper (Guaranteed fixed width for vertical symmetry)
-                questionHtml += `<div class="rating-wrapper-v2" style="display: flex; flex-direction: column; align-items: center; flex: 0 0 250px; width: 100%; max-width: 100%;">`;
+                questionHtml += `<div class="rating-wrapper-v2" style="display: flex; flex-direction: column; align-items: center; flex: 1 1 250px; width: 100%; max-width: 100%;">`;
                 questionHtml += `<div class="star-rating-v2" id="rating_${q.id}">`;
                 const ratingVal = parseInt(val);
                 for (let i = 1; i <= 5; i++) {
