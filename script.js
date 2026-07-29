@@ -4,7 +4,7 @@
 
 const CONFIG = {
     // IMPORTANT: Replace this with your Google Apps Script Web App URL after deployment
-    GAS_URL: 'https://script.google.com/macros/s/AKfycbyxRjGOj_VhGf6GFi_EYPjXRp4gMhxzTT8v2_r7K-VtIpdo42JLDV8IRiqo0r4ik8-fxw/exec'
+    GAS_URL: 'https://script.google.com/macros/s/AKfycbx8_B6w1dekk4Ij1gLy5icZVAvTf_lqLGV-gPDCSjZu9h_SwcEQSHR66a2Gj4_2KCU7/exec'
 };
 
 const SECTIONS_CONFIG = [
@@ -22,7 +22,7 @@ const SECTIONS_CONFIG = [
                 "required": true,
                 "prefix": "FRE",
                 "placeholder": " ",
-                "validation": /^\d{7}$/,
+                "validationRegex": "^\\d{7}$",
                 "validationMsg": "Required exactly 7 digits."
             },
             {
@@ -51,13 +51,128 @@ const SECTIONS_CONFIG = [
                     "Salem to Bangalore",
                     "Bangalore to Erode",
                     "Erode to Bangalore",
-                    "Guntur - Visakhapatnam"
+                    "Guntur - Visakhapatnam",
+                    "Visakhapatnam - Guntur",
+                    "Tirupati - Vijayawada",
+                    "Vijayawada - Tirupati",
+                    "Coimbatore - Bangalore",
+                    "Bangalore - Coimbatore",
+                    "Coimbatore - Madurai",
+                    "Madurai - Coimbatore"
                 ]
             },
             {
                 "id": "headcount",
                 "type": "select",
                 "label": "Number of total passengers (Last Boarding Point)",
+                "required": true,
+                "options": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9",
+                    "10",
+                    "11",
+                    "12",
+                    "13",
+                    "14",
+                    "15",
+                    "16",
+                    "17",
+                    "18",
+                    "19",
+                    "20",
+                    "21",
+                    "22",
+                    "23",
+                    "24",
+                    "25",
+                    "26",
+                    "27",
+                    "28",
+                    "29",
+                    "30",
+                    "31",
+                    "32",
+                    "33",
+                    "34",
+                    "35",
+                    "36",
+                    "37",
+                    "38",
+                    "39",
+                    "40",
+                    "41",
+                    "42",
+                    "43",
+                    "44",
+                    "45",
+                    "46",
+                    "47",
+                    "48",
+                    "49",
+                    "50",
+                    "51",
+                    "52",
+                    "53",
+                    "54",
+                    "55",
+                    "56",
+                    "57",
+                    "58",
+                    "59",
+                    "60",
+                    "61",
+                    "62",
+                    "63",
+                    "64",
+                    "65",
+                    "66",
+                    "67",
+                    "68",
+                    "69",
+                    "70",
+                    "71",
+                    "72",
+                    "73",
+                    "74",
+                    "75",
+                    "76",
+                    "77",
+                    "78",
+                    "79",
+                    "80",
+                    "81",
+                    "82",
+                    "83",
+                    "84",
+                    "85",
+                    "86",
+                    "87",
+                    "88",
+                    "89",
+                    "90",
+                    "91",
+                    "92",
+                    "93",
+                    "94",
+                    "95",
+                    "96",
+                    "97",
+                    "98",
+                    "99",
+                    "100"
+                ]
+            },
+            {
+                "id": "headcount_midpoint",
+                "type": "select",
+                "label": "Number of total passengers at midpoint",
                 "required": true,
                 "options": [
                     "1",
@@ -203,30 +318,6 @@ const SECTIONS_CONFIG = [
                 "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
             },
             {
-                "id": "s2_u2",
-                "type": "rating",
-                "label": "Captain and Co-Captain wearing Black Shoes",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s2_u2_socks",
-                "type": "rating",
-                "label": "Captain and Co-Captain wearing black socks",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
                 "id": "s2_u3",
                 "type": "rating",
                 "label": "Well-groomed personality (Clean shaven/trimmed, neat hair)",
@@ -257,7 +348,7 @@ const SECTIONS_CONFIG = [
             {
                 "id": "s2_q16",
                 "type": "rating",
-                "label": "Did you observe Captain or Co-Captain were shouting , using vulgar or rude language, or indulge in arguments with passengers",
+                "label": "Did you observe Captain or Co-Captain were shouting, using vulgar or rude language, or indulge in arguments with passengers",
                 "required": true,
                 "descriptionTrigger": [
                     1,
@@ -271,18 +362,6 @@ const SECTIONS_CONFIG = [
                 "label": "Staff Presence & Responsiveness (During Journey)"
             },
             {
-                "id": "s2_q9",
-                "type": "rating",
-                "label": "Were the staff consistently visible, approachable, and prompt in responding to passenger needs throughout the journey?",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
                 "id": "s2_q11",
                 "type": "rating",
                 "label": "Maintained polite and respectful behavior at all times",
@@ -294,7 +373,6 @@ const SECTIONS_CONFIG = [
                 ],
                 "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
             },
-
             {
                 "type": "heading",
                 "label": "Special Passenger Assistance"
@@ -358,19 +436,19 @@ const SECTIONS_CONFIG = [
             {
                 "id": "s2_good",
                 "type": "textarea",
-                "label": "\u2728 Share your positive highlights for Staff Behaviour & Professionalism",
+                "label": "Share your positive highlights for Staff Behaviour & Professionalism",
                 "required": true
             },
             {
                 "id": "s2_wrong",
                 "type": "textarea",
-                "label": "\u26a0\ufe0f Mention any gaps or areas for improvement in Staff Behaviour & Professionalism",
+                "label": "Mention any gaps or areas for improvement in Staff Behaviour & Professionalism",
                 "required": true
             },
             {
                 "id": "s2_media",
                 "type": "file",
-                "label": "\ud83d\udcf7 Section Media (Photos/Videos/Audio)",
+                "label": " Section Media (Photos/Videos/Audio)",
                 "required": true
             }
         ]
@@ -438,30 +516,6 @@ const SECTIONS_CONFIG = [
                 "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
             },
             {
-                "id": "s3_p4",
-                "type": "rating",
-                "label": "Queue managed in organized manner without rush or confusion",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s3_p5",
-                "type": "rating",
-                "label": "Captain or Co-Captain Maintained friendly, calm, and approachable first impression",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
                 "id": "s3_p6",
                 "type": "rating",
                 "label": "Co-Captain handed the luggage handled safely without damage or negligence",
@@ -504,19 +558,19 @@ const SECTIONS_CONFIG = [
             {
                 "id": "s3_good",
                 "type": "textarea",
-                "label": "\u2728 Share your positive highlights for Pickup Responsibilities",
+                "label": "Share your positive highlights for Pickup Responsibilities",
                 "required": true
             },
             {
                 "id": "s3_wrong",
                 "type": "textarea",
-                "label": "\u26a0\ufe0f Mention any gaps or areas for improvement in Pickup Responsibilities",
+                "label": "Mention any gaps or areas for improvement in Pickup Responsibilities",
                 "required": true
             },
             {
                 "id": "s3_media",
                 "type": "file",
-                "label": "\ud83d\udcf7 Section Media (Photos/Videos/Audio)",
+                "label": " Section Media (Photos/Videos/Audio)",
                 "required": true
             }
         ]
@@ -556,10 +610,7 @@ const SECTIONS_CONFIG = [
                         "h_sleeper_amenities",
                         "s4_b3",
                         "h_sleeper_comfort",
-                        "s4_q36",
-                        "s4_a1",
-                        "s4_a2",
-                        "s4_a3"
+                        "s4_sleeper_clean"
                     ]
                 }
             },
@@ -635,18 +686,6 @@ const SECTIONS_CONFIG = [
                 "id": "s4_q6_a",
                 "type": "rating",
                 "label": "No leftover trash on seat",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s4_q6_b",
-                "type": "rating",
-                "label": "Seat area properly sanitized",
                 "required": true,
                 "descriptionTrigger": [
                     1,
@@ -812,18 +851,6 @@ const SECTIONS_CONFIG = [
                 "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
             },
             {
-                "id": "s4_d1",
-                "type": "rating",
-                "label": "Was doors clean or not? Were they greasy?",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
                 "id": "h_seater_amenities",
                 "type": "heading",
                 "label": "Seater - Amenities Quality",
@@ -903,45 +930,9 @@ const SECTIONS_CONFIG = [
                 "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
             },
             {
-                "id": "s4_av2",
-                "type": "rating",
-                "label": "Airflow evenly distributed across bus",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s4_av3",
-                "type": "rating",
-                "label": "No stuffy or suffocating feeling",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
                 "id": "s4_v1",
                 "type": "rating",
                 "label": "Were there loose AC fittings inside the bus?",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s4_v2",
-                "type": "rating",
-                "label": "Was the Service Hatch of the bus clean or greasy?",
                 "required": true,
                 "descriptionTrigger": [
                     1,
@@ -958,18 +949,6 @@ const SECTIONS_CONFIG = [
                 "id": "s4_q25",
                 "type": "rating",
                 "label": "No bad odour inside bus",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s4_of1",
-                "type": "rating",
-                "label": "No smoke or fuel smell",
                 "required": true,
                 "descriptionTrigger": [
                     1,
@@ -1021,7 +1000,7 @@ const SECTIONS_CONFIG = [
             {
                 "id": "s4_uf1",
                 "type": "rating",
-                "label": "Reading lights functioning correctly or not ?",
+                "label": "Reading lights functioning correctly or not?",
                 "required": true,
                 "descriptionTrigger": [
                     1,
@@ -1035,33 +1014,9 @@ const SECTIONS_CONFIG = [
                 "label": "NOISE & RIDE COMFORT"
             },
             {
-                "id": "s4_nr1",
-                "type": "rating",
-                "label": "No excessive rattling noise",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
                 "id": "s4_nr2",
                 "type": "rating",
                 "label": "Cabin reasonably quiet during travel",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s4_nr3",
-                "type": "rating",
-                "label": "No disturbing internal sounds",
                 "required": true,
                 "descriptionTrigger": [
                     1,
@@ -1089,78 +1044,11 @@ const SECTIONS_CONFIG = [
                 "hidden": true
             },
             {
-                "id": "s4_q36",
+                "id": "s4_sleeper_clean",
                 "type": "rating",
-                "label": "Blankets clean and well-maintained",
+                "label": "Were the blankets, bedsheets, and pillows clean and well maintained?",
                 "required": true,
                 "hidden": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s4_a1",
-                "type": "rating",
-                "label": "Pillow Covers clean and maintained?",
-                "required": true,
-                "hidden": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s4_a2",
-                "type": "rating",
-                "label": "Bedsheets clean and maintained?",
-                "required": true,
-                "hidden": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s4_a3",
-                "type": "rating",
-                "label": "Pillows clean and well maintained?",
-                "required": true,
-                "hidden": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "type": "heading",
-                "label": "SAFETY EQUIPMENT CONDITION"
-            },
-            {
-                "id": "s4_s1",
-                "type": "rating",
-                "label": "Was the fire extinguisher lock intact or broken?",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s4_s2",
-                "type": "rating",
-                "label": "Hammer thread lock was intact or broken?",
-                "required": true,
                 "descriptionTrigger": [
                     1,
                     2,
@@ -1175,19 +1063,19 @@ const SECTIONS_CONFIG = [
             {
                 "id": "s4_good",
                 "type": "textarea",
-                "label": "\u2728 Share your positive highlights for Bus Cleanliness & Maintenance",
+                "label": "Share your positive highlights for Bus Cleanliness & Maintenance",
                 "required": true
             },
             {
                 "id": "s4_wrong",
                 "type": "textarea",
-                "label": "\u26a0\ufe0f Mention any gaps or areas for improvement in Bus Cleanliness & Maintenance",
+                "label": "Mention any gaps or areas for improvement in Bus Cleanliness & Maintenance",
                 "required": true
             },
             {
                 "id": "s4_media",
                 "type": "file",
-                "label": "\ud83d\udcf7 Section Media (Photos/Videos/Audio)",
+                "label": " Section Media (Photos/Videos/Audio)",
                 "required": true
             }
         ]
@@ -1199,374 +1087,6 @@ const SECTIONS_CONFIG = [
         "timeEst": "5 min",
         "severity": "CRITICAL",
         "questions": [
-            {
-                "type": "heading",
-                "label": "Captain Readiness Before Journey Start"
-            },
-            {
-                "id": "s5_r1",
-                "type": "rating",
-                "label": "Captain appeared physically fit and alert before departure",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_r2",
-                "type": "rating",
-                "label": "No visible signs of fatigue or drowsiness",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "type": "heading",
-                "label": "Speed Compliance & Control (Critical)"
-            },
-            {
-                "id": "s5_sp1",
-                "type": "rating",
-                "label": "Captain driving maintained speed within 80 km/h limit",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_sp2",
-                "type": "rating",
-                "label": "Speed never exceeded 80 km/h at any time",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_sp3",
-                "type": "rating",
-                "label": "Speed appropriate for road and traffic conditions",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_sp4",
-                "type": "rating",
-                "label": "Was the driving smooth and controlled, without sudden speed changes, harsh acceleration, or abrupt braking?",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "type": "heading",
-                "label": "Driving Smoothness & Vehicle Control"
-            },
-            {
-                "id": "s5_sm1",
-                "type": "rating",
-                "label": "No sudden harsh braking during journey",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_sm2",
-                "type": "rating",
-                "label": "No sharp or unsafe turns observed",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_sm4",
-                "type": "rating",
-                "label": "Driving felt smooth and well controlled",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_sm5",
-                "type": "rating",
-                "label": "Bus movement stable without jerks or shocks",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "type": "heading",
-                "label": "Road Discipline & Rule Compliance"
-            },
-            {
-                "id": "s5_rd1",
-                "type": "rating",
-                "label": "Captain followed lane discipline consistently",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_rd2",
-                "type": "rating",
-                "label": "Traffic signals and road signs properly obeyed",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_rd3",
-                "type": "rating",
-                "label": "Safe distance maintained from other vehicles",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_rd4",
-                "type": "rating",
-                "label": "No unsafe or risky overtaking observed",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "type": "heading",
-                "label": "Honking Behavior & Noise Discipline"
-            },
-            {
-                "id": "s5_h1",
-                "type": "rating",
-                "label": "Did the driver avoid unnecessary, excessive, or aggressive honking during the journey?",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_h2",
-                "type": "rating",
-                "label": "Horn used only when genuinely required",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "type": "heading",
-                "label": "Night Driving Safety"
-            },
-            {
-                "id": "s5_n1",
-                "type": "rating",
-                "label": "Speed controlled properly during night travel",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_n2",
-                "type": "rating",
-                "label": "Captain remained alert and attentive at night",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_n3",
-                "type": "rating",
-                "label": "Proper headlight usage and dimming observed",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_n4",
-                "type": "rating",
-                "label": "No signs of drowsiness while driving",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_n5",
-                "type": "rating",
-                "label": "Extra caution taken in low visibility areas",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "type": "heading",
-                "label": "Captain & Co-Captain Focus & Distraction Avoidance"
-            },
-            {
-                "id": "s5_f1",
-                "type": "rating",
-                "label": "Captain & Co-Captain did not use mobile phone or earphones while driving",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_f2",
-                "type": "rating",
-                "label": "No distractions affecting driving attention",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_f3",
-                "type": "rating",
-                "label": "No unnecessary interactions impacting driving focus",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_f4",
-                "type": "rating",
-                "label": "Full concentration maintained on road",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "type": "heading",
-                "label": "Fatigue Management & Break Discipline"
-            },
-            {
-                "id": "s5_fm1",
-                "type": "rating",
-                "label": "Adequate rest breaks taken during journey",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_fm2",
-                "type": "rating",
-                "label": "Captain rotation followed for long-distance travel",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_fm3",
-                "type": "rating",
-                "label": "Captain did not appear tired while driving",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
             {
                 "type": "heading",
                 "label": "Mechanical Condition & Vehicle Health"
@@ -1633,64 +1153,12 @@ const SECTIONS_CONFIG = [
             },
             {
                 "type": "heading",
-                "label": "Ride Safety Impact on Passengers"
-            },
-            {
-                "id": "s5_si1",
-                "type": "rating",
-                "label": "Ride felt safe and physically comfortable",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_si2",
-                "type": "rating",
-                "label": "No sudden unsafe movements affecting passengers",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_si3",
-                "type": "rating",
-                "label": "Passengers remained stable while seated",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_si4",
-                "type": "rating",
-                "label": "Driving did not create fear or anxiety",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "type": "heading",
                 "label": "Safety Equipment Availability (Visibility Check)"
             },
             {
-                "id": "s5_sv1",
+                "id": "s5_sv_fire",
                 "type": "rating",
-                "label": "Fire extinguisher clearly visible inside bus",
+                "label": "Was the fire extinguisher clearly visible inside the bus?",
                 "required": true,
                 "descriptionTrigger": [
                     1,
@@ -1700,9 +1168,9 @@ const SECTIONS_CONFIG = [
                 "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
             },
             {
-                "id": "s5_sv2",
+                "id": "s5_sv_hammer",
                 "type": "rating",
-                "label": "First aid kit available and accessible",
+                "label": "Was the emergency hammer clearly visible inside the bus?",
                 "required": true,
                 "descriptionTrigger": [
                     1,
@@ -1712,33 +1180,9 @@ const SECTIONS_CONFIG = [
                 "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
             },
             {
-                "id": "s5_sv3",
+                "id": "s5_sv_firstaid",
                 "type": "rating",
-                "label": "Emergency hammer available near passenger seats",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_sv4",
-                "type": "rating",
-                "label": "Emergency exits clearly marked and labeled",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_sv5",
-                "type": "rating",
-                "label": "Safety instructions displayed inside bus",
+                "label": "Was the first aid kit available and properly stocked with essential items?",
                 "required": true,
                 "descriptionTrigger": [
                     1,
@@ -1749,12 +1193,12 @@ const SECTIONS_CONFIG = [
             },
             {
                 "type": "heading",
-                "label": "Safety Equipment Condition (Usability Check)"
+                "label": "Captain & Co-Captain Fitness & Sobriety (Critical)"
             },
             {
-                "id": "s5_sc2",
+                "id": "s5_fit1",
                 "type": "rating",
-                "label": "First aid kit properly stocked with essentials",
+                "label": "Captain and Co-Captain showed no signs of intoxication while driving",
                 "required": true,
                 "descriptionTrigger": [
                     1,
@@ -1764,9 +1208,9 @@ const SECTIONS_CONFIG = [
                 "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
             },
             {
-                "id": "s5_sc3",
+                "id": "s5_fit2",
                 "type": "rating",
-                "label": "Emergency hammer in usable working condition",
+                "label": "No smell of alcohol from the Captain or Co-Captain",
                 "required": true,
                 "descriptionTrigger": [
                     1,
@@ -1776,9 +1220,9 @@ const SECTIONS_CONFIG = [
                 "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
             },
             {
-                "id": "s5_sc4",
+                "id": "s5_fit3",
                 "type": "rating",
-                "label": "Safety equipment not damaged or missing",
+                "label": "Captain and Co-Captain behaved normally and remained well-controlled",
                 "required": true,
                 "descriptionTrigger": [
                     1,
@@ -1788,269 +1232,9 @@ const SECTIONS_CONFIG = [
                 "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
             },
             {
-                "type": "heading",
-                "label": "Emergency Preparedness & Awareness"
-            },
-            {
-                "id": "s5_ep1",
+                "id": "s5_fit4",
                 "type": "rating",
-                "label": "Emergency exits accessible without blockage",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_ep2",
-                "type": "rating",
-                "label": "No confusion during safety-related situations",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "type": "heading",
-                "label": "Captain Fitness & Sobriety (Critical)"
-            },
-            {
-                "id": "s5_cs1",
-                "type": "rating",
-                "label": "Captain driving showed no intoxication signs",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_cs2",
-                "type": "rating",
-                "label": "No smell of alcohol from Captain",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_cs3",
-                "type": "rating",
-                "label": "Captain behavior normal and well controlled",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_cs4",
-                "type": "rating",
-                "label": "Speech clear when interacting with passengers",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_cs5",
-                "type": "rating",
-                "label": "No signs of substance influence observed",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "type": "heading",
-                "label": "Co - Captain Fitness & Sobriety (Critical)"
-            },
-            {
-                "id": "s5_ccs1",
-                "type": "rating",
-                "label": "Co - Captain driving showed no intoxication signs",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_ccs2",
-                "type": "rating",
-                "label": "No smell of alcohol from Co-Captain",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_ccs3",
-                "type": "rating",
-                "label": "Co - Captain behavior normal and well controlled",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_ccs4",
-                "type": "rating",
-                "label": "Speech clear when interacting with passengers",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_ccs5",
-                "type": "rating",
-                "label": "No signs of substance influence observed",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "type": "heading",
-                "label": "Role Change at Pit Stop (Critical Transition)"
-            },
-            {
-                "id": "s5_rc1",
-                "type": "rating",
-                "label": "Driving responsibility clearly handed over at stop",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_rc2",
-                "type": "rating",
-                "label": "New Captain appeared alert before taking control",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_rc3",
-                "type": "rating",
-                "label": "No confusion during role transition process",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_rc4",
-                "type": "rating",
-                "label": "Post-switch driving smooth and well controlled",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_rc5",
-                "type": "rating",
-                "label": "No safety drop after role change",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "type": "heading",
-                "label": "Overall Safety Confidence Perception"
-            },
-            {
-                "id": "s5_osc1",
-                "type": "rating",
-                "label": "Felt safe throughout the entire journey",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_osc2",
-                "type": "rating",
-                "label": "Captain behavior inspired confidence and trust",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_osc3",
-                "type": "rating",
-                "label": "Vehicle condition felt reliable and secure",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s5_osc4",
-                "type": "rating",
-                "label": "No moment of serious safety concern",
+                "label": "Captain and Co-Captain spoke clearly while interacting with passengers",
                 "required": true,
                 "descriptionTrigger": [
                     1,
@@ -2066,19 +1250,19 @@ const SECTIONS_CONFIG = [
             {
                 "id": "s5_good",
                 "type": "textarea",
-                "label": "\u2728 Share your positive highlights for Driving & Technical Safety",
+                "label": "Share your positive highlights for Driving & Technical Safety",
                 "required": true
             },
             {
                 "id": "s5_wrong",
                 "type": "textarea",
-                "label": "\u26a0\ufe0f Mention any gaps or areas for improvement in Driving & Technical Safety",
+                "label": "Mention any gaps or areas for improvement in Driving & Technical Safety",
                 "required": true
             },
             {
                 "id": "s5_media",
                 "type": "file",
-                "label": "\ud83d\udcf7 Section Media (Photos/Videos/Audio)",
+                "label": " Section Media (Photos/Videos/Audio)",
                 "required": true
             }
         ]
@@ -2092,7 +1276,7 @@ const SECTIONS_CONFIG = [
             {
                 "id": "s6_water",
                 "type": "rating",
-                "label": "were water bottles provided by the staff. If Yes, was it sealed and clean",
+                "label": "Were water bottles provided by the staff. If Yes, was it sealed and clean",
                 "required": true,
                 "descriptionTrigger": [
                     1,
@@ -2110,399 +1294,7 @@ const SECTIONS_CONFIG = [
                     "Snack Box",
                     "Breakfast/Lunch/Dinner",
                     "Both"
-                ],
-                "conditional": {
-                    "Snack Box": [
-                        "s6_snack_heading",
-                        "s6_snack_q1",
-                        "s6_snack_q2",
-                        "s6_snack_q3",
-                        "s6_snack_q4"
-                    ],
-                    "Breakfast/Lunch/Dinner": [
-                        "s6_meal_heading",
-                        "s6_meal_q1",
-                        "s6_meal_q2",
-                        "s6_meal_q3",
-                        "s6_meal_q4",
-                        "s6_meal_q5",
-                        "s6_meal_q6",
-                        "s6_meal_q7",
-                        "s6_meal_q8",
-                        "s6_meal_q9",
-                        "s6_meal_q10",
-                        "s6_meal_q11",
-                        "s6_meal_q12",
-                        "s6_meal_q13"
-                    ],
-                    "Both": [
-                        "s6_snack_heading",
-                        "s6_snack_q1",
-                        "s6_snack_q2",
-                        "s6_snack_q3",
-                        "s6_snack_q4",
-                        "s6_meal_heading",
-                        "s6_meal_q1",
-                        "s6_meal_q2",
-                        "s6_meal_q3",
-                        "s6_meal_q4",
-                        "s6_meal_q5",
-                        "s6_meal_q6",
-                        "s6_meal_q7",
-                        "s6_meal_q8",
-                        "s6_meal_q9",
-                        "s6_meal_q10",
-                        "s6_meal_q11",
-                        "s6_meal_q12",
-                        "s6_meal_q13"
-                    ]
-                }
-            },
-            {
-                "id": "s6_snack_heading",
-                "type": "heading",
-                "label": "Snack Box Questions",
-                "hidden": true
-            },
-            {
-                "id": "s6_snack_q1",
-                "type": "rating",
-                "label": "Was snack box distributed to you by the co-captain?",
-                "required": true,
-                "hidden": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_snack_q2",
-                "type": "rating",
-                "label": "If provided, was the snack box properly sealed, fresh, and in good condition?",
-                "required": true,
-                "hidden": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_snack_q3",
-                "type": "rating",
-                "label": "Was snack box items close to expiry or expired? If yes, describe the issue in detail and upload the image of the item.",
-                "required": true,
-                "hidden": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_snack_q4",
-                "type": "rating",
-                "label": "Were all items present inside the snack box? (Items Include - Juice Packet, Wet Wipes, Namkeen Packet, Peanut Chikki). If not, describe in detail what items are missing.",
-                "required": true,
-                "hidden": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_meal_heading",
-                "type": "heading",
-                "label": "Pitstop Food Service - Breakfast/Lunch/Dinner",
-                "hidden": true
-            },
-            {
-                "id": "s6_meal_q1",
-                "type": "rating",
-                "label": "Was the pitstop location communicated clearly in advance?",
-                "required": true,
-                "hidden": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_meal_q2",
-                "type": "rating",
-                "label": "Was the stop duration sufficient to comfortably finish the meal?",
-                "required": true,
-                "hidden": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_meal_q3",
-                "type": "rating",
-                "label": "Was the food served promptly upon arrival or was there a waiting time?",
-                "required": true,
-                "hidden": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_meal_q4",
-                "type": "rating",
-                "label": "Was the food served at appropriate temperature?",
-                "required": true,
-                "hidden": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_meal_q5",
-                "type": "rating",
-                "label": "Were the portion sizes of the meal Adequate?",
-                "required": true,
-                "hidden": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_meal_q6",
-                "type": "rating",
-                "label": "Did the taste and quality of the food served meet expectations?",
-                "required": true,
-                "hidden": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_meal_q7",
-                "type": "rating",
-                "label": "Was drinking water easily available and safe?",
-                "required": true,
-                "hidden": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_meal_q8",
-                "type": "rating",
-                "label": "Were serving utensils, plates, and glasses clean and hygienic?",
-                "required": true,
-                "hidden": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_meal_q9",
-                "type": "rating",
-                "label": "Were add-ons (extra servings, beverages) available if needed?",
-                "required": true,
-                "hidden": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_meal_q10",
-                "type": "rating",
-                "label": "Was AC Working on the Pitstop Freshbus Dining Area?",
-                "required": true,
-                "hidden": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_meal_q11",
-                "type": "rating",
-                "label": "Did the co-captain inform passengers about the QR code for the free meal (Breakfast/Lunch/Dinner) to be received on their WhatsApp — the number provided during booking?",
-                "required": true,
-                "hidden": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_meal_q12",
-                "type": "rating",
-                "label": "If a customer did not receive the QR code, did the co-captain and Freshbus Dining Area staff assist by asking for their PNR number and providing the free meal?",
-                "required": true,
-                "hidden": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_meal_q13",
-                "type": "rating",
-                "label": "Was the customer's meal QR code scanned by staff at the Freshbus Dining Area at the pitstop?",
-                "required": true,
-                "hidden": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "type": "heading",
-                "label": "🧼 Pitstop Overall Experience & Hygiene"
-            },
-            {
-                "id": "s6_overall_q1",
-                "type": "rating",
-                "label": "Was the pitstop facility clean and well-maintained overall?",
-                "required": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_overall_q2",
-                "type": "rating",
-                "label": "Were restrooms hygienic, functional, and adequately stocked?",
-                "required": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_overall_q3",
-                "type": "rating",
-                "label": "Was handwashing/sanitization available and accessible?",
-                "required": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_overall_q4",
-                "type": "rating",
-                "label": "Did the location feel safe and well-lit?",
-                "required": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_overall_q5",
-                "type": "rating",
-                "label": "Was there adequate seating and space for passengers?",
-                "required": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_overall_q6",
-                "type": "rating",
-                "label": "Was crowd management handled properly at the location?",
-                "required": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_overall_q7",
-                "type": "rating",
-                "label": "Were waste disposal bins available and used effectively?",
-                "required": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_overall_q8",
-                "type": "rating",
-                "label": "Was the environment (noise, smell, cleanliness) comfortable?",
-                "required": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_overall_q9",
-                "type": "rating",
-                "label": "Was the stop duration well-balanced (not rushed or too long)?",
-                "required": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_overall_q10",
-                "type": "rating",
-                "label": "Did the pitstop enhance or disrupt your overall journey experience?",
-                "required": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_overall_q11",
-                "type": "rating",
-                "label": "Were there clear signages for facilities (restrooms, food counters, etc.)?",
-                "required": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_overall_q12",
-                "type": "rating",
-                "label": "Was staff behavior at the pitstop courteous and helpful?",
-                "required": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "type": "heading",
-                "label": "🚌 Journey Restart Experience (Post Pitstop)"
-            },
-            {
-                "id": "s6_restart_q1",
-                "type": "rating",
-                "label": "Was a clear announcement made before restarting the journey?",
-                "required": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_restart_q2",
-                "type": "rating",
-                "label": "Were passengers given sufficient notice/time to return to the bus?",
-                "required": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_restart_q3",
-                "type": "rating",
-                "label": "Did the captain/co-captain actively check if all passengers had boarded before departure?",
-                "required": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_restart_q4",
-                "type": "rating",
-                "label": "Was the passenger count re-verified before restarting the journey?",
-                "required": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_restart_q5",
-                "type": "rating",
-                "label": "Was there any confusion or rush during the re-boarding process?",
-                "required": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-
-            {
-                "id": "s6_restart_q7",
-                "type": "rating",
-                "label": "Were any passengers left behind or reboarding issues observed?",
-                "required": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "type": "heading",
-                "label": "🔋 EV Charging Experience"
-            },
-            {
-                "id": "s6_ev_q1",
-                "type": "rating",
-                "label": "Did the charging process cause any delays beyond the expected time, and were timely updates provided?",
-                "required": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_ev_q2",
-                "type": "rating",
-                "label": "Did the charging stop disrupt your journey schedule significantly?",
-                "required": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
-            },
-            {
-                "id": "s6_ev_q3",
-                "type": "rating",
-                "label": "During the charging delay, what was the AC condition inside the bus and how did it impact passenger comfort?",
-                "required": true,
-                "descriptionTrigger": [1, 2, 4, 5],
-                "descriptionLabel": "Audit Observation Details:"
+                ]
             },
             {
                 "type": "heading",
@@ -2511,19 +1303,19 @@ const SECTIONS_CONFIG = [
             {
                 "id": "s6_good",
                 "type": "textarea",
-                "label": "✨ Share your positive highlights for Food, Pitstop, & Charging",
+                "label": "Share your positive highlights for Food, Pitstop, & Charging",
                 "required": true
             },
             {
                 "id": "s6_wrong",
                 "type": "textarea",
-                "label": "⚠️ Mention any gaps or areas for improvement in Food, Pitstop, & Charging",
+                "label": "Mention any gaps or areas for improvement in Food, Pitstop, & Charging",
                 "required": true
             },
             {
                 "id": "s6_media",
                 "type": "file",
-                "label": "📸 Section Media (Photos/Videos/Audio)",
+                "label": " Section Media (Photos/Videos/Audio)",
                 "required": true
             }
         ]
@@ -2551,33 +1343,9 @@ const SECTIONS_CONFIG = [
                 "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
             },
             {
-                "id": "s7_q2",
-                "type": "rating",
-                "label": "Safety instructions explained properly",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
                 "id": "s7_q3",
                 "type": "rating",
                 "label": "Important route updates or delay announcements shared when needed",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s7_q4",
-                "type": "rating",
-                "label": "Mid-journey announcement made regarding next stop or progress",
                 "required": true,
                 "descriptionTrigger": [
                     1,
@@ -2606,18 +1374,6 @@ const SECTIONS_CONFIG = [
                 "id": "s7_q6",
                 "type": "rating",
                 "label": "Were announcements made clearly enough to be heard and understood?",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s7_q7",
-                "type": "rating",
-                "label": "Were announcements made at the right time (not too early/late)?",
                 "required": true,
                 "descriptionTrigger": [
                     1,
@@ -2669,19 +1425,19 @@ const SECTIONS_CONFIG = [
             {
                 "id": "s7_good",
                 "type": "textarea",
-                "label": "\u2728 Share your positive highlights for Announcements",
+                "label": "Share your positive highlights for Announcements",
                 "required": true
             },
             {
                 "id": "s7_wrong",
                 "type": "textarea",
-                "label": "\u26a0\ufe0f Mention any gaps or areas for improvement in Announcements",
+                "label": "Mention any gaps or areas for improvement in Announcements",
                 "required": true
             },
             {
                 "id": "s7_media",
                 "type": "file",
-                "label": "\ud83d\udcf7 Section Media (Photos/Videos/Audio)",
+                "label": " Section Media (Photos/Videos/Audio)",
                 "required": true
             }
         ]
@@ -2699,24 +1455,8 @@ const SECTIONS_CONFIG = [
             },
             {
                 "id": "s8_q1",
-                "type": "rating",
-                "label": "No unauthorized passengers observed",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "type": "heading",
-                "label": "Unauthorized Cash Handling"
-            },
-            {
-                "id": "s8_q3",
                 "type": "radio",
-                "label": "Did any staff ask for cash payment without providing an official receipt?",
+                "label": "Were any unauthorized passengers observed?",
                 "required": true,
                 "options": [
                     "Yes",
@@ -2724,16 +1464,44 @@ const SECTIONS_CONFIG = [
                 ],
                 "conditional": {
                     "Yes": [
+                        "h_cash_handling",
+                        "s8_q3",
+                        "s8_q4",
+                        "s8_q5",
+                        "s8_q6",
+                        "s8_q7",
+                        "s8_q8",
+                        "s8_q9",
+                        "s8_q10",
                         "s8_amount",
-                        "s8_staff"
+                        "s8_staff",
+                        "s8_media"
                     ]
                 }
+            },
+            {
+                "id": "h_cash_handling",
+                "type": "heading",
+                "label": "Unauthorized Cash Handling",
+                "hidden": true
+            },
+            {
+                "id": "s8_q3",
+                "type": "radio",
+                "label": "Did any staff ask for cash payment without providing an official receipt?",
+                "required": true,
+                "hidden": true,
+                "options": [
+                    "Yes",
+                    "No"
+                ]
             },
             {
                 "id": "s8_q4",
                 "type": "radio",
                 "label": "Did staff request extra money for seat allocation or luggage?",
                 "required": true,
+                "hidden": true,
                 "options": [
                     "Yes",
                     "No"
@@ -2744,6 +1512,7 @@ const SECTIONS_CONFIG = [
                 "type": "radio",
                 "label": "Did staff ask passengers to pay outside the official booking system?",
                 "required": true,
+                "hidden": true,
                 "options": [
                     "Yes",
                     "No"
@@ -2754,6 +1523,7 @@ const SECTIONS_CONFIG = [
                 "type": "radio",
                 "label": "Did staff collect cash for a service normally included in the fare?",
                 "required": true,
+                "hidden": true,
                 "options": [
                     "Yes",
                     "No"
@@ -2764,6 +1534,7 @@ const SECTIONS_CONFIG = [
                 "type": "radio",
                 "label": "Was any cash collected without clearly explaining the reason?",
                 "required": true,
+                "hidden": true,
                 "options": [
                     "Yes",
                     "No"
@@ -2774,6 +1545,7 @@ const SECTIONS_CONFIG = [
                 "type": "radio",
                 "label": "Did you observe staff accepting cash from passengers discreetly?",
                 "required": true,
+                "hidden": true,
                 "options": [
                     "Yes",
                     "No"
@@ -2782,8 +1554,9 @@ const SECTIONS_CONFIG = [
             {
                 "id": "s8_q9",
                 "type": "radio",
-                "label": "Did any passenger appear boarded after paying cash directly?",
+                "label": "Did any passenger appear to board after paying cash directly?",
                 "required": true,
+                "hidden": true,
                 "options": [
                     "Yes",
                     "No"
@@ -2794,6 +1567,7 @@ const SECTIONS_CONFIG = [
                 "type": "radio",
                 "label": "Was there any sign of unethical cash handling by staff?",
                 "required": true,
+                "hidden": true,
                 "options": [
                     "Yes",
                     "No"
@@ -2802,11 +1576,11 @@ const SECTIONS_CONFIG = [
             {
                 "id": "s8_amount",
                 "type": "text",
-                "label": "Amount (approx) in Rs",
+                "label": "Amount (Approx. in \u20b9)",
                 "required": true,
                 "hidden": true,
                 "placeholder": "Enter the amount",
-                "validation": /^\d{1,5}$/,
+                "validationRegex": "^\\d{1,5}$",
                 "validationMsg": "Only numbers up to 5 digits are allowed, no decimals or special characters."
             },
             {
@@ -2822,26 +1596,35 @@ const SECTIONS_CONFIG = [
                 ]
             },
             {
+                "id": "s8_media",
+                "type": "file",
+                "label": " Section Media (Photos/Videos/Audio)",
+                "required": true,
+                "hidden": true
+            },
+            {
                 "type": "heading",
                 "label": "Detailed Section Feedback"
             },
             {
                 "id": "s8_good",
                 "type": "textarea",
-                "label": "\u2728 Share your positive highlights for Pilferage Check",
-                "required": true
+                "label": "Share your positive highlights for Pilferage Check",
+                "required": false,
+                "conditionalRequired": {
+                    "questionId": "s8_q1",
+                    "value": "Yes"
+                }
             },
             {
                 "id": "s8_wrong",
                 "type": "textarea",
-                "label": "\u26a0\ufe0f Mention any gaps or areas for improvement in Pilferage Check",
-                "required": true
-            },
-            {
-                "id": "s8_media",
-                "type": "file",
-                "label": "\ud83d\udcf7 Section Media (Photos/Videos/Audio)",
-                "required": true
+                "label": "Mention any gaps or areas for improvement in Pilferage Check",
+                "required": false,
+                "conditionalRequired": {
+                    "questionId": "s8_q1",
+                    "value": "Yes"
+                }
             }
         ]
     },
@@ -2880,38 +1663,34 @@ const SECTIONS_CONFIG = [
                 "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
             },
             {
-                "id": "s9_q3",
-                "type": "rating",
-                "label": "Did the bus arrive at final destination within expected window?",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
                 "id": "s9_q4",
-                "type": "rating",
-                "label": "Was total journey delay more than 15 minutes?",
+                "type": "radio",
+                "label": "Was the total journey delay more than 15 minutes?",
                 "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
+                "options": [
+                    "Yes",
+                    "No"
                 ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "type": "heading",
-                "label": "Communication & Management"
+                "conditional": {
+                    "Yes": [
+                        "s9_q5",
+                        "s9_q6",
+                        "s9_q6b",
+                        "s9_q7",
+                        "s9_q8",
+                        "s9_q9",
+                        "s9_q10",
+                        "s9_total_delay",
+                        "s9_media"
+                    ]
+                }
             },
             {
                 "id": "s9_q5",
                 "type": "rating",
-                "label": "Reason for delay clearly communicated to passengers",
+                "label": "Was the reason for the delay clearly communicated to passengers?",
                 "required": true,
+                "hidden": true,
                 "descriptionTrigger": [
                     1,
                     2,
@@ -2922,8 +1701,9 @@ const SECTIONS_CONFIG = [
             {
                 "id": "s9_q6",
                 "type": "rating",
-                "label": "Updates shared regularly when delay continued",
+                "label": "Were updates shared regularly during the delay?",
                 "required": true,
+                "hidden": true,
                 "descriptionTrigger": [
                     1,
                     2,
@@ -2934,8 +1714,9 @@ const SECTIONS_CONFIG = [
             {
                 "id": "s9_q6b",
                 "type": "rating",
-                "label": "Were passengers reassured calmly with an apology and clear communication during the delay?",
+                "label": "Were passengers reassured calmly with an apology and clear communication?",
                 "required": true,
+                "hidden": true,
                 "descriptionTrigger": [
                     1,
                     2,
@@ -2946,8 +1727,9 @@ const SECTIONS_CONFIG = [
             {
                 "id": "s9_q7",
                 "type": "rating",
-                "label": "Was delay caused by operational issues in control of staff?",
+                "label": "Was the delay caused by operational issues within staff control?",
                 "required": true,
+                "hidden": true,
                 "descriptionTrigger": [
                     1,
                     2,
@@ -2958,8 +1740,9 @@ const SECTIONS_CONFIG = [
             {
                 "id": "s9_q8",
                 "type": "rating",
-                "label": "Did unnecessary long halts or stoppages contribute to delay?",
+                "label": "Did unnecessary halts or stoppages contribute to the delay?",
                 "required": true,
+                "hidden": true,
                 "descriptionTrigger": [
                     1,
                     2,
@@ -2970,8 +1753,9 @@ const SECTIONS_CONFIG = [
             {
                 "id": "s9_q9",
                 "type": "rating",
-                "label": "Despite delays, did staff manage situation professionally?",
+                "label": "Despite the delay, did the staff manage the situation professionally?",
                 "required": true,
+                "hidden": true,
                 "descriptionTrigger": [
                     1,
                     2,
@@ -2982,8 +1766,9 @@ const SECTIONS_CONFIG = [
             {
                 "id": "s9_q10",
                 "type": "rating",
-                "label": "Overall trip schedule managed efficiently?",
+                "label": "Was the overall trip schedule managed efficiently?",
                 "required": true,
+                "hidden": true,
                 "descriptionTrigger": [
                     1,
                     2,
@@ -2996,6 +1781,7 @@ const SECTIONS_CONFIG = [
                 "type": "select",
                 "label": "Total delay observed (minutes)",
                 "required": true,
+                "hidden": true,
                 "options": [
                     "10",
                     "20",
@@ -3030,26 +1816,35 @@ const SECTIONS_CONFIG = [
                 ]
             },
             {
+                "id": "s9_media",
+                "type": "file",
+                "label": " Section Media (Photos/Videos/Audio)",
+                "required": true,
+                "hidden": true
+            },
+            {
                 "type": "heading",
                 "label": "Detailed Section Feedback"
             },
             {
                 "id": "s9_good",
                 "type": "textarea",
-                "label": "\u2728 Share your positive highlights for Delay Adherence",
-                "required": true
+                "label": "Share your positive highlights for Delay Adherence",
+                "required": false,
+                "conditionalRequired": {
+                    "questionId": "s9_q4",
+                    "value": "Yes"
+                }
             },
             {
                 "id": "s9_wrong",
                 "type": "textarea",
-                "label": "\u26a0\ufe0f Mention any gaps or areas for improvement in Delay Adherence",
-                "required": true
-            },
-            {
-                "id": "s9_media",
-                "type": "file",
-                "label": "\ud83d\udcf7 Section Media (Photos/Videos/Audio)",
-                "required": true
+                "label": "Mention any gaps or areas for improvement in Delay Adherence",
+                "required": false,
+                "conditionalRequired": {
+                    "questionId": "s9_q4",
+                    "value": "Yes"
+                }
             }
         ]
     },
@@ -3063,30 +1858,6 @@ const SECTIONS_CONFIG = [
             {
                 "type": "heading",
                 "label": "Emergency Preparedness"
-            },
-            {
-                "id": "s10_q1",
-                "type": "rating",
-                "label": "Emergency exits accessible and clearly marked",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s10_q2",
-                "type": "rating",
-                "label": "CCTV monitoring signs visible and cameras present",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
             },
             {
                 "id": "s10_q3",
@@ -3121,18 +1892,6 @@ const SECTIONS_CONFIG = [
                 "id": "s10_q5",
                 "type": "rating",
                 "label": "Were all passengers onboarded with proper ID verification?",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s10_q6",
-                "type": "rating",
-                "label": "Did you observe any suspicious person or unauthorized passenger?",
                 "required": true,
                 "descriptionTrigger": [
                     1,
@@ -3189,18 +1948,6 @@ const SECTIONS_CONFIG = [
                 ]
             },
             {
-                "id": "s10_q10",
-                "type": "rating",
-                "label": "Did female passengers/solo travelers appear comfortable?",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
                 "id": "s10_q11",
                 "type": "rating",
                 "label": "If issues occurred, did staff respond quickly and appropriately?",
@@ -3219,19 +1966,19 @@ const SECTIONS_CONFIG = [
             {
                 "id": "s10_good",
                 "type": "textarea",
-                "label": "\u2728 Share your positive highlights for Safety & Security",
+                "label": "Share your positive highlights for Safety & Security",
                 "required": true
             },
             {
                 "id": "s10_wrong",
                 "type": "textarea",
-                "label": "\u26a0\ufe0f Mention any gaps or areas for improvement in Safety & Security",
+                "label": "Mention any gaps or areas for improvement in Safety & Security",
                 "required": true
             },
             {
                 "id": "s10_media",
                 "type": "file",
-                "label": "\ud83d\udcf7 Section Media (Photos/Videos/Audio)",
+                "label": " Section Media (Photos/Videos/Audio)",
                 "required": true
             }
         ]
@@ -3242,22 +1989,6 @@ const SECTIONS_CONFIG = [
         "description": "Evaluate deboarding efficiency and closing interaction.",
         "timeEst": "3 min",
         "questions": [
-            {
-                "type": "heading",
-                "label": "🌟 Passenger Rating Request"
-            },
-            {
-                "id": "s11_rating_request",
-                "type": "rating",
-                "label": "Did the co-captain and captain request all passengers to provide an overall rating of their journey experience with FreshBus?",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
             {
                 "type": "heading",
                 "label": "Drop Timing"
@@ -3277,18 +2008,6 @@ const SECTIONS_CONFIG = [
             {
                 "type": "heading",
                 "label": "Drop-off Execution"
-            },
-            {
-                "id": "s11_d2",
-                "type": "rating",
-                "label": "Arrival communicated in advance to passengers",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
             },
             {
                 "id": "s11_d3",
@@ -3316,64 +2035,24 @@ const SECTIONS_CONFIG = [
             },
             {
                 "type": "heading",
-                "label": "Closing Interaction"
-            },
-            {
-                "id": "s11_d5",
-                "type": "rating",
-                "label": "Passengers thanked with polite and respectful farewell",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s11_d6",
-                "type": "rating",
-                "label": "Final queries handled before journey closure",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "id": "s11_d7",
-                "type": "rating",
-                "label": "Smooth and positive end to journey",
-                "required": true,
-                "descriptionTrigger": [
-                    1,
-                    2,
-                    5
-                ],
-                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
-            },
-            {
-                "type": "heading",
                 "label": "Detailed Section Feedback"
             },
             {
                 "id": "s11_good",
                 "type": "textarea",
-                "label": "\u2728 Share your positive highlights for Drop Responsibilities",
+                "label": "Share your positive highlights for Drop Responsibilities",
                 "required": true
             },
             {
                 "id": "s11_wrong",
                 "type": "textarea",
-                "label": "\u26a0\ufe0f Mention any gaps or areas for improvement in Drop Responsibilities",
+                "label": "Mention any gaps or areas for improvement in Drop Responsibilities",
                 "required": true
             },
             {
                 "id": "s11_media",
                 "type": "file",
-                "label": "\ud83d\udcf7 Section Media (Photos/Videos/Audio)",
+                "label": " Section Media (Photos/Videos/Audio)",
                 "required": true
             }
         ]
@@ -3404,22 +2083,6 @@ const SECTIONS_CONFIG = [
         "questions": [
             {
                 "type": "heading",
-                "label": "Brand Experience"
-            },
-            {
-                "id": "s13_staff_initiative",
-                "type": "textarea",
-                "label": "Did any staff member show exemplary hospitality while helping passengers? (Provide a shout-out: Mention names if known, otherwise refer to them as Captain, Co-captain, or by their specific role) *",
-                "required": true
-            },
-            {
-                "id": "s13_premium_moment",
-                "type": "textarea",
-                "label": "Was there any moment where FreshBus brand experience felt premium? *",
-                "required": true
-            },
-            {
-                "type": "heading",
                 "label": "Conclusion"
             },
             {
@@ -3437,7 +2100,7 @@ const SECTIONS_CONFIG = [
             {
                 "id": "s13_media",
                 "type": "file",
-                "label": "📸 Section Media (Photos/Videos/Audio)",
+                "label": " Section Media (Photos/Videos/Audio)",
                 "required": true
             }
         ]

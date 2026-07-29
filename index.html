@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
     <div id="app">
         <header class="app-header">
@@ -15,11 +17,11 @@
                 <div class="header-left">
                     <img src="logo.webp" alt="FreshBus Logo" class="brand-logo">
                 </div>
-                
+
                 <div class="header-center">
                     <h1 class="header-title-compact">Flying Audit Form</h1>
                 </div>
-                
+
                 <div class="header-actions-right">
                     <div class="progress-container-compact" id="header-progress">
                         <div class="progress-stats">
@@ -31,12 +33,12 @@
                         </div>
                         <div id="motivational-msg"></div>
                     </div>
-                    
+
                     <div class="expiry-warning" id="expiry-notice">
                         <i class="fa-solid fa-clock-rotate-left"></i>
                         <span id="expiry-timer">48:00:00</span>
                     </div>
-                    
+
                     <button id="mobile-menu-btn" class="mobile-menu-btn" title="Toggle Menu">
                         <i class="fa-solid fa-bars"></i>
                     </button>
@@ -69,20 +71,20 @@
                     <div id="section-render"></div>
                 </form>
             </main>
-                <footer class="app-footer" id="app-footer">
-                    <div class="nav-buttons">
-                        <button type="button" id="btn-back" class="btn btn-secondary btn-compact">
-                            <i class="fa-solid fa-arrow-left"></i> Back
-                        </button>
-                        <div class="spacer"></div>
-                        <button type="button" id="btn-next" class="btn btn-primary btn-compact">
-                            Next <i class="fa-solid fa-arrow-right"></i>
-                        </button>
-                        <button type="button" id="btn-submit" class="btn btn-submit btn-compact">
-                            Submit Audit <i class="fa-solid fa-check-double"></i>
-                        </button>
-                    </div>
-                </footer>
+            <footer class="app-footer" id="app-footer">
+                <div class="nav-buttons">
+                    <button type="button" id="btn-back" class="btn btn-secondary btn-compact">
+                        <i class="fa-solid fa-arrow-left"></i> Back
+                    </button>
+                    <div class="spacer"></div>
+                    <button type="button" id="btn-next" class="btn btn-primary btn-compact">
+                        Next <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                    <button type="button" id="btn-submit" class="btn btn-submit btn-compact">
+                        Submit Audit <i class="fa-solid fa-check-double"></i>
+                    </button>
+                </div>
+            </footer>
         </div>
 
         <!-- Preview Modal -->
@@ -106,7 +108,8 @@
                 <h1>Outstanding Job!</h1>
                 <p>Your mystery ride audit has been successfully submitted.</p>
                 <div class="reward-info">
-                    <p>Wait for the audit results and rewards. Our customer care will be reaching out to you in 48 hrs if you are eligible for the reward.</p>
+                    <p>Wait for the audit results and rewards. Our customer care will be reaching out to you in 48 hrs
+                        if you are eligible for the reward.</p>
                 </div>
                 <button onclick="location.reload()" class="btn btn-primary">Submit Another</button>
             </div>
@@ -118,4 +121,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
