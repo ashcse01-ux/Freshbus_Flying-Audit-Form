@@ -3152,7 +3152,7 @@ class FreshBusAudit {
                         this.formData[q.id] = [q.options[0]];
                     } else if (q.type === 'file') {
                         if (idx < SECTIONS_CONFIG.length - 1) {
-                            this.formData[q.id] = 'dummy_auto_file.jpg';
+                            this.filesData[q.id] = 'dummy_auto_file.jpg';
                         }
                     }
                 }
