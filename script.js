@@ -3135,7 +3135,7 @@ class FreshBusAudit {
     fillAllAndGo() {
         if (!confirm("This will fill all required fields with test data. Proceed?")) return;
 
-        SECTIONS_CONFIG.forEach(sec => {
+        SECTIONS_CONFIG.forEach((sec, idx) => {
             sec.questions.forEach(q => {
                 if (q.id) {
                     if (q.type === 'text' || q.type === 'number') {
@@ -3150,6 +3150,10 @@ class FreshBusAudit {
                         this.formData[q.id] = q.options[0];
                     } else if (q.type === 'checkbox') {
                         this.formData[q.id] = [q.options[0]];
+                    } else if (q.type === 'file') {
+                        if (idx < SECTIONS_CONFIG.length - 1) {
+                            this.formData[q.id] = 'dummy_auto_file.jpg';
+                        }
                     }
                 }
             });

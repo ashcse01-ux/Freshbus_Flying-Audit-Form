@@ -130,7 +130,7 @@ body {
 }
 
 .logo-container img {
-    filter: invert(82%) sepia(85%) saturate(1478%) hue-rotate(345deg) brightness(101%) contrast(97%);
+    filter: brightness(0) saturate(100%) invert(89%) sepia(94%) saturate(5451%) hue-rotate(357deg) brightness(105%) contrast(106%);
 }
 
 .header-title-compact {
@@ -354,7 +354,7 @@ body {
     height: auto;
     object-fit: contain;
     /* Convert black/dark to #FBBC04 Yellow */
-    filter: brightness(0) saturate(100%) invert(75%) sepia(61%) saturate(1637%) hue-rotate(345deg) brightness(102%) contrast(105%);
+    filter: brightness(0) saturate(100%) invert(89%) sepia(94%) saturate(5451%) hue-rotate(357deg) brightness(105%) contrast(106%);
 }
 
 .intro-logo-fallback {
@@ -1012,7 +1012,7 @@ textarea:focus {
     width: auto;
     transition: height 0.3s ease;
     /* Convert black/dark to #FBBC04 Yellow */
-    filter: brightness(0) saturate(100%) invert(75%) sepia(61%) saturate(1637%) hue-rotate(345deg) brightness(102%) contrast(105%);
+    filter: brightness(0) saturate(100%) invert(89%) sepia(94%) saturate(5451%) hue-rotate(357deg) brightness(105%) contrast(106%);
 }
 
 .header-center {
