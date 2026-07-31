@@ -332,14 +332,14 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     min-height: 100%;
+    padding: 2rem 1rem;
 }
 
 .intro-card-content {
     text-align: center;
     max-width: 600px;
-    margin: auto;
+    margin: 0 auto;
     width: 100%;
     box-sizing: border-box;
     word-break: break-word;
