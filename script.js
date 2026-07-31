@@ -2358,8 +2358,7 @@ class FreshBusAudit {
         if (horizontalNav) horizontalNav.style.display = '';
         if (headerProgress) headerProgress.style.display = '';
         if (appFooter) appFooter.style.display = '';
-
-        this.renderSidebar();
+        this.renderHorizontalNav();
 
         let html = `
             <div class="section-card">
