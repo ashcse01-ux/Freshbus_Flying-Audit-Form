@@ -3037,9 +3037,20 @@ class FreshBusAudit {
         submitBtn.disabled = true;
         submitBtn.innerHTML = 'Submitting...';
 
+        const cleanFilesData = {};
+        for (let fieldId in this.filesData) {
+            const files = this.filesData[fieldId];
+            if (Array.isArray(files)) {
+                const validFiles = files.filter(f => f.name !== 'dummy_auto_file.txt');
+                if (validFiles.length > 0) {
+                    cleanFilesData[fieldId] = validFiles;
+                }
+            }
+        }
+
         const payload = {
             responses: this.formData,
-            files: this.filesData,
+            files: cleanFilesData,
             headerMap: this.generateHeaderMap(),
             sectionMap: this.generateSectionMap()
         };
@@ -3152,7 +3163,11 @@ class FreshBusAudit {
                         this.formData[q.id] = [q.options[0]];
                     } else if (q.type === 'file') {
                         if (idx < SECTIONS_CONFIG.length - 1) {
-                            this.filesData[q.id] = 'dummy_auto_file.jpg';
+                            this.filesData[q.id] = [{
+                                name: 'dummy_auto_file.txt',
+                                type: 'text/plain',
+                                base64: 'ZHVtbXk='
+                            }];
                         }
                     }
                 }
