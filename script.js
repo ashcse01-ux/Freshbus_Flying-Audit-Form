@@ -2462,26 +2462,29 @@ class FreshBusAudit {
                         🚌 FreshBus
                     </div>
                 </div>
-                <h1 class="intro-welcome">🚍 Welcome, Auditor! 👋</h1>
-                <p class="intro-text">You're an important part of the <strong>FreshBus Flying Audit Program</strong>.</p>
-                <p class="intro-text">Every photo you capture, every rating you give, and every observation you share helps us create a better travel experience for thousands of passengers.</p>
+                <h1 class="intro-welcome">Welcome, Auditor! 👋</h1>
+                <p class="intro-text" style="font-size: 1.05rem; line-height: 1.6; margin-bottom: 1.5rem; text-align: left;">
+                    You're an important part of the <strong>FreshBus Flying Audit Program</strong>.<br><br>
+                    Every photo you capture, every rating you give, and every observation you share helps us create a better travel experience for thousands of passengers.
+                </p>
                 
                 <div class="reward-highlight">
-                    <span><strong>Be honest. Be accurate. Your valuable feedback makes a real difference—and qualifies you for exciting rewards!</strong></span>
+                    <i class="fa-solid fa-gift"></i>
+                    <span>Be honest. Be accurate. Your valuable feedback makes a real difference—and qualifies you for exciting rewards!</span>
                 </div>
 
                 <div class="guidelines-box">
-                    <h4>📸 Audit Essentials</h4>
-                    <p style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text-muted);">To ensure your audit is valid:</p>
+                    <h4><i class="fa-solid fa-camera"></i> Audit Essentials:</h4>
+                    <p style="margin-bottom: 1rem; font-size: 0.95rem;">To ensure your audit is valid:</p>
                     <ul>
-                        <li>📷 Capture all photos and videos using the <strong>Timestamp Camera App</strong>.</li>
-                        <li>🕒 Make sure every photo/video includes a <strong>visible timestamp</strong> and <strong>geo-tagged location</strong>.</li>
-                        <li>💻📱 Available on <strong>Windows, Mac, iOS, and Android</strong>.</li>
+                        <li>Capture all photos and videos using the <strong>Timestamp Camera App</strong>.</li>
+                        <li>Make sure every photo/video includes a <strong>visible timestamp</strong> and <strong>geo-tagged location</strong>.</li>
+                        <li>Available on <strong>Windows, Mac, iOS, and Android</strong>.</li>
                     </ul>
                 </div>
 
                 <div class="rating-guide-box">
-                    <h4>⭐ Rating Guide</h4>
+                    <h4><i class="fa-solid fa-star"></i> Rating Guide:</h4>
                     <div class="rating-grid">
                         <span class="r-1">⭐ 1 Star</span> <span>Very Poor / Unacceptable</span>
                         <span class="r-2">⭐⭐ 2 Stars</span> <span>Poor / Below Average</span>
@@ -2491,8 +2494,10 @@ class FreshBusAudit {
                     </div>
                 </div>
 
-                <h3 style="color: var(--primary); margin: 1.5rem 0 1rem; font-size: 1.2rem;">🚀 Ready to Make an Impact?</h3>
-                <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Start your audit now and help us raise the bar with every journey.</p>
+                <div style="margin: 2rem 0 1rem 0; text-align: center;">
+                    <h3 style="color: var(--primary); margin-bottom: 0.5rem;">🚀 Ready to Make an Impact?</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Start your audit now and help us raise the bar with every journey.</p>
+                </div>
 
                 <button type="button" class="btn btn-submit" style="width: 100%; justify-content: center; margin: 0; padding: 1rem;" onclick="window.app.nextStep()">
                     Start My Audit <i class="fa-solid fa-play"></i>
