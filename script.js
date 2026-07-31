@@ -2330,73 +2330,79 @@ class FreshBusAudit {
     }
 
     render() {
-        if (this.currentStep >= 0) {
-            this.renderHorizontalNav();
+        try {
+            if (this.currentStep >= 0) {
+                this.renderHorizontalNav();
+            }
+
+            if (this.currentStep === -1) {
+                this.renderIntro();
+                return;
+            }
+
+            const section = SECTIONS_CONFIG[this.currentStep];
+
+            // Ensure App Shell is visible (in case returning from intro)
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const headerProgress = document.getElementById('header-progress');
+            const headerTitle = document.querySelector('.header-title-compact');
+            const appFooter = document.getElementById('app-footer');
+            const formContainer = document.getElementById('main-content');
+
+            if (headerTitle) {
+                headerTitle.innerText = "Flying Audit Form";
+            }
+            if (formContainer) {
+                formContainer.classList.remove('intro-mode');
+                formContainer.style.height = 'auto';
+            }
+
+            const horizontalNav = document.getElementById('horizontal-nav');
+            if (horizontalNav) horizontalNav.style.display = '';
+            if (headerProgress) headerProgress.style.display = '';
+            if (appFooter) appFooter.style.display = '';
+
+            let html = `
+                <div class="section-card">
+                    <div class="section-title">
+                        <span class="step-num">${section.id}.</span> 
+                        ${section.title}
+                        ${section.severity ? `<span class="severity-tag severity-${section.severity.toLowerCase()}">${section.severity}</span>` : ''}
+                        <span class="time-est"><i class="fa-regular fa-clock"></i> ${section.timeEst}</span>
+                    </div>
+                    ${section.description ? `<p class="section-desc" style="margin-bottom: 2rem; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; border-left: 3px solid var(--accent); padding-left: 1rem;">${section.description}</p>` : ''}
+                    <div class="section-content">
+            `;
+
+            if (section.id === 12) {
+                html += this.renderPassengerSection();
+            } else {
+                section.questions.forEach(q => {
+                    html += this.renderQuestion(q);
+                });
+            }
+
+            html += `</div></div>`; // end section-content and section-card
+            this.elements.renderArea.innerHTML = html;
+
+            // Visibility sync
+            this.syncVisibility();
+
+            // Navigation button sync
+            this.elements.btnBack.style.display = (this.currentStep === 0) ? 'none' : 'flex';
+            if (this.currentStep === SECTIONS_CONFIG.length - 1) {
+                this.elements.btnNext.style.display = 'none';
+                this.elements.btnSubmit.style.display = 'flex';
+            } else {
+                this.elements.btnNext.style.display = 'flex';
+                this.elements.btnSubmit.style.display = 'none';
+            }
+
+            window.scrollTo(0, 0);
+        } catch (e) {
+            alert("Error in render: " + e.message + "\n" + e.stack);
         }
-
-        if (this.currentStep === -1) {
-            this.renderIntro();
-            return;
-        }
-
-        const section = SECTIONS_CONFIG[this.currentStep];
-
-        // Show App Shell Elements
-        const sidebar = document.getElementById('sidebar');
-        const sidebarToggle = document.getElementById('sidebar-toggle');
-        const headerProgress = document.getElementById('header-progress');
-        const appFooter = document.getElementById('app-footer');
-        const formContainer = document.getElementById('main-content');
-
-        if (formContainer) {
-            formContainer.classList.remove('intro-mode');
-            formContainer.style.display = 'block';
-            formContainer.style.height = 'auto';
-        }
-
-        const horizontalNav = document.getElementById('horizontal-nav');
-        if (horizontalNav) horizontalNav.style.display = '';
-        if (headerProgress) headerProgress.style.display = '';
-        if (appFooter) appFooter.style.display = '';
-        this.renderHorizontalNav();
-
-        let html = `
-            <div class="section-card">
-                <div class="section-title">
-                    <span class="step-num">${section.id}.</span> 
-                    ${section.title}
-                    ${section.severity ? `<span class="severity-tag severity-${section.severity.toLowerCase()}">${section.severity}</span>` : ''}
-                    <span class="time-est"><i class="fa-regular fa-clock"></i> ${section.timeEst}</span>
-                </div>
-                ${section.description ? `<p class="section-desc" style="margin-bottom: 2rem; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; border-left: 3px solid var(--accent); padding-left: 1rem;">${section.description}</p>` : ''}
-                <div class="section-content">
-        `;
-
-        if (section.id === 12) {
-            html += this.renderPassengerSection();
-        } else {
-            section.questions.forEach(q => {
-                html += this.renderQuestion(q);
-            });
-        }
-
-        html += `</div></div>`; // end section-content and section-card
-        this.elements.renderArea.innerHTML = html;
-
-        // Visibility sync
-        this.syncVisibility();
-
-        // Navigation button sync
-        this.elements.btnBack.style.display = (this.currentStep === 0) ? 'none' : 'flex';
-        if (this.currentStep === SECTIONS_CONFIG.length - 1) {
-            this.elements.btnNext.style.display = 'none';
-            this.elements.btnSubmit.style.display = 'flex';
-        } else {
-            this.elements.btnNext.style.display = 'flex';
-            this.elements.btnSubmit.style.display = 'none';
-        }
-
-        window.scrollTo(0, 0);
     }
 
     renderHorizontalNav() {
