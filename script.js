@@ -2245,6 +2245,12 @@ class FreshBusAudit {
             if (target.id.startsWith('star_')) {
                 this.updateStarUI(name, value);
             }
+            this.formData[name] = value;
+            if (name === 'feedback_recorded') {
+                this.saveDraft();
+                this.render();
+                return;
+            }
         } else {
             value = target.value;
         }
@@ -2324,6 +2330,10 @@ class FreshBusAudit {
     }
 
     render() {
+        if (this.currentStep >= 0) {
+            this.renderHorizontalNav();
+        }
+
         if (this.currentStep === -1) {
             this.renderIntro();
             return;
@@ -2344,8 +2354,8 @@ class FreshBusAudit {
             formContainer.style.height = 'auto';
         }
 
-        if (sidebar) sidebar.style.display = '';
-        if (sidebarToggle) sidebarToggle.style.display = '';
+        const horizontalNav = document.getElementById('horizontal-nav');
+        if (horizontalNav) horizontalNav.style.display = '';
         if (headerProgress) headerProgress.style.display = '';
         if (appFooter) appFooter.style.display = '';
 
@@ -2390,27 +2400,33 @@ class FreshBusAudit {
         window.scrollTo(0, 0);
     }
 
-    renderSidebar() {
-        const menu = document.getElementById('sidebar-menu');
+    renderHorizontalNav() {
+        const menu = document.getElementById('section-menu');
         if (!menu) return;
 
         let html = '';
         SECTIONS_CONFIG.forEach((sec, idx) => {
             const isActive = this.currentStep === idx ? 'active' : '';
-            const isCompleted = this.currentStep > idx ? 'completed' : '';
-            const icon = isCompleted ? '<i class="fa-solid fa-check-circle" style="width:20px"></i> ' : `<span style="width:20px; display:inline-block">${idx + 1}.</span> `;
+            const isCompleted = this.isSectionValid(idx) ? 'completed' : '';
+            const icon = isCompleted ? '<i class="fa-solid fa-check-circle"></i> ' : `<span style="display:inline-block; margin-right:4px;">${idx + 1}.</span> `;
             html += `<li class="${isActive} ${isCompleted}" onclick="window.app.goToStep(${idx})">${icon} ${sec.title}</li>`;
         });
         menu.innerHTML = html;
+
+        // Auto-scroll the active tab into view smoothly
+        setTimeout(() => {
+            const activeTab = menu.querySelector('.active');
+            if (activeTab) {
+                activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+        }, 50);
     }
 
     goToStep(idx) {
-        if (idx > this.currentStep && !this.validateCurrent()) return;
+        // NON-LINEAR NAVIGATION: Allow jumping to any section without strict validation block.
+        // We only save draft data when they navigate away.
+        this.saveDraft();
         this.currentStep = idx;
-        if (window.innerWidth <= 768) {
-            const appBody = document.querySelector('.app-body');
-            if (appBody) appBody.classList.remove('sidebar-open');
-        }
         this.render();
         this.updateProgress();
     }
@@ -2424,8 +2440,8 @@ class FreshBusAudit {
         const appFooter = document.getElementById('app-footer');
         const formContainer = document.getElementById('main-content');
 
-        if (sidebar) sidebar.style.display = 'none';
-        if (sidebarToggle) sidebarToggle.style.display = 'none';
+        const horizontalNav = document.getElementById('horizontal-nav');
+        if (horizontalNav) horizontalNav.style.display = 'none';
         if (headerProgress) headerProgress.style.display = 'none';
         if (appFooter) appFooter.style.display = 'none';
         
@@ -2787,20 +2803,66 @@ class FreshBusAudit {
     }
 
     nextStep() {
-        if (this.validateCurrent()) {
+        this.saveDraft();
+        if (this.currentStep < SECTIONS_CONFIG.length - 1) {
             this.currentStep++;
-            this.render();
-            this.updateProgress();
         }
-    }
-
-    prevStep() {
-        this.currentStep--;
         this.render();
         this.updateProgress();
     }
 
-    validateCurrent() {
+    prevStep() {
+        this.saveDraft();
+        if (this.currentStep > 0) {
+            this.currentStep--;
+        }
+        this.render();
+        this.updateProgress();
+    }
+
+    isSectionValid(idx) {
+        if (idx === -1) return true;
+        const section = SECTIONS_CONFIG[idx];
+        if (!section) return true;
+
+        let hiddenFields = new Set();
+        section.questions.forEach(q => {
+            const val = this.formData[q.id];
+            if (val && q.conditional) {
+                Object.values(q.conditional).flat().forEach(id => hiddenFields.add(id));
+                const rules = q.conditional[val] || [];
+                rules.forEach(id => hiddenFields.delete(id));
+            }
+        });
+
+        for (let q of section.questions) {
+            if (q.type === 'heading') continue;
+            if (hiddenFields.has(q.id)) continue;
+
+            let val = this.formData[q.id];
+            if (q.type === 'file') val = this.filesData[q.id];
+
+            if (q.required && (!val || (Array.isArray(val) && val.length === 0))) {
+                return false;
+            }
+            if (val && q.validation && !q.validation.test(val)) {
+                return false;
+            }
+            if (q.id === 'pnr' && val && val.length !== 7) {
+                return false;
+            }
+        }
+
+        if (section.id === 12 && this.formData['feedback_recorded'] === 'Yes') {
+            for (let p of this.passengers) {
+                if (!p.name || !p.seatType || !p.seatNo || !p.good || !p.wrong) return false;
+            }
+        }
+
+        return true;
+    }
+
+    validateCurrent(silent = false) {
         if (this.currentStep === -1) return true;
         const section = SECTIONS_CONFIG[this.currentStep];
         let isValid = true;
@@ -2852,7 +2914,7 @@ class FreshBusAudit {
             });
         }
 
-        if (!isValid) {
+        if (!isValid && !silent) {
             if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
         return isValid;
@@ -2883,8 +2945,15 @@ class FreshBusAudit {
 
     updateProgress() {
         const total = SECTIONS_CONFIG.length;
-        const current = this.currentStep + 1;
-        const percent = Math.round((current / total) * 100);
+        let completed = 0;
+        
+        for (let i = 0; i < total; i++) {
+            if (this.isSectionValid(i)) {
+                completed++;
+            }
+        }
+        
+        const percent = Math.round((completed / total) * 100);
 
         const elPercent = this.elements.progressBar('progress-percent');
         const elBar = this.elements.progressBar('progress-bar-fill');
@@ -2893,7 +2962,7 @@ class FreshBusAudit {
 
         if (elPercent) elPercent.innerText = `${percent}%`;
         if (elBar) elBar.style.width = `${percent}%`;
-        if (elText) elText.innerText = `Section ${current} of ${total}`;
+        if (elText) elText.innerText = `Sections ${completed}/${total}`;
 
         const msgs = [
             "Great start! Keep going. 🚀",
@@ -2902,7 +2971,7 @@ class FreshBusAudit {
             "Almost finished! Just a few more. 🏁",
             "Final stretch! Ready to submit? 🏆"
         ];
-        const msgIdx = Math.floor((percent / 100) * (msgs.length - 1));
+        const msgIdx = Math.min(Math.floor((percent / 100) * (msgs.length - 1)), msgs.length - 1);
         if (elMsg) elMsg.innerText = msgs[msgIdx];
     }
 
@@ -2919,7 +2988,20 @@ class FreshBusAudit {
     }
 
     showPreview() {
-        if (!this.validateCurrent()) return;
+        // Enforce final submission validation
+        const total = SECTIONS_CONFIG.length;
+        let incompleteSections = [];
+        
+        for (let i = 0; i < total; i++) {
+            if (!this.isSectionValid(i)) {
+                incompleteSections.push(SECTIONS_CONFIG[i].title);
+            }
+        }
+        
+        if (incompleteSections.length > 0) {
+            alert("Kindly fill all the sections in order to complete your flying audit.\n\nIncomplete:\n- " + incompleteSections.join('\n- '));
+            return;
+        }
 
         const modal = document.getElementById('preview-modal');
         const content = document.getElementById('preview-data');

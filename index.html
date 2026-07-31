@@ -39,7 +39,7 @@
                         <span id="expiry-timer">48:00:00</span>
                     </div>
 
-                    <button id="mobile-menu-btn" class="mobile-menu-btn" title="Toggle Menu">
+                    <button id="mobile-menu-btn" class="mobile-menu-btn" title="Toggle Menu" style="display: none;">
                         <i class="fa-solid fa-bars"></i>
                     </button>
                     <button id="theme-toggle" class="theme-toggle" title="Toggle Dark/Light Mode">
@@ -50,20 +50,11 @@
         </header>
 
         <div class="app-body">
-            <div id="sidebar-overlay" class="sidebar-overlay"></div>
-            <aside id="sidebar" class="app-sidebar">
-                <div class="sidebar-top">
-                    <h3 class="sidebar-title">Audit Sections</h3>
-                    <button id="sidebar-toggle" class="sidebar-toggle" title="Toggle Sidebar">
-                        <i id="sidebar-icon" class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-                <nav class="sidebar-nav">
-                    <ul id="sidebar-menu">
-                        <!-- Injected by JS -->
-                    </ul>
-                </nav>
-            </aside>
+            <nav class="horizontal-nav" id="horizontal-nav">
+                <ul id="section-menu" class="section-menu">
+                    <!-- Injected by JS -->
+                </ul>
+            </nav>
 
             <main class="form-container" id="main-content">
                 <form id="audit-form" novalidate>

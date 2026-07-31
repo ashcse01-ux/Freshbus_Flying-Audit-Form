@@ -195,6 +195,7 @@ body {
 
 .app-body {
     display: flex;
+    flex-direction: column;
     flex: 1;
     overflow: hidden; /* Prevent body scroll, use container scroll */
     position: relative;
@@ -203,16 +204,11 @@ body {
     width: 100%;
 }
 
+.sidebar-overlay {
+    display: none;
+}
 .app-sidebar {
-    width: var(--sidebar-width);
-    background: var(--bg-card);
-    border-right: 1px solid var(--border);
-    padding: 1.5rem 1rem;
-    flex-shrink: 0;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
+    display: none;
 }
 
 .sidebar-collapsed .app-sidebar {
@@ -1292,3 +1288,76 @@ textarea:focus {
 [data-theme="dark"] .sidebar-nav li:hover {
     background: rgba(255,255,255,0.05);
 }
+
+/* --- Horizontal Navigation --- */
+.horizontal-nav {
+    background-color: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0.75rem 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    overflow-x: auto;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    scrollbar-width: none;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.horizontal-nav::-webkit-scrollbar { display: none; }
+
+.section-menu {
+    list-style: none;
+    display: flex;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+}
+
+.section-menu li {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    background-color: var(--background);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.section-menu li:hover {
+    background-color: rgba(0, 69, 173, 0.05);
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.section-menu li.active {
+    background-color: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary);
+    box-shadow: 0 2px 6px rgba(0, 69, 173, 0.3);
+}
+
+.section-menu li.completed {
+    background-color: rgba(34, 197, 94, 0.1);
+    color: var(--success);
+    border-color: var(--success);
+}
+.section-menu li.completed.active {
+    background-color: var(--success);
+    color: #ffffff;
+}
+
+[data-theme='dark'] .section-menu li {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+[data-theme='dark'] .section-menu li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+
