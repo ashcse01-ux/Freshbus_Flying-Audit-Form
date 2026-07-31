@@ -2135,7 +2135,6 @@ class FreshBusAudit {
         this.render();
         this.setupEventListeners();
         this.updateProgress();
-        this.startTimer();
     }
 
     setupEventListeners() {
@@ -2980,17 +2979,6 @@ class FreshBusAudit {
         if (elMsg) elMsg.innerText = msgs[msgIdx];
     }
 
-    startTimer() {
-        let totalSeconds = 48 * 3600;
-        setInterval(() => {
-            totalSeconds--;
-            const h = Math.floor(totalSeconds / 3600);
-            const m = Math.floor((totalSeconds % 3600) / 60);
-            const s = totalSeconds % 60;
-            document.getElementById('expiry-timer').innerText =
-                `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-        }, 1000);
-    }
 
     showPreview() {
         // Enforce final submission validation
