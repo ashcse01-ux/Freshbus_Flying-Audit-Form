@@ -3046,42 +3046,45 @@ class FreshBusAudit {
         submitBtn.disabled = true;
         submitBtn.innerHTML = 'Submitting...';
 
-        const cleanFilesData = {};
-        for (let fieldId in this.filesData) {
-            const files = this.filesData[fieldId];
-            if (Array.isArray(files)) {
-                const validFiles = files.filter(f => f.name !== 'dummy_auto_file.txt');
-                if (validFiles.length > 0) {
-                    cleanFilesData[fieldId] = validFiles;
+        // Yield to allow the browser to render the "Submitting..." text before freezing the UI
+        setTimeout(async () => {
+            const cleanFilesData = {};
+            for (let fieldId in this.filesData) {
+                const files = this.filesData[fieldId];
+                if (Array.isArray(files)) {
+                    const validFiles = files.filter(f => f.name !== 'dummy_auto_file.txt');
+                    if (validFiles.length > 0) {
+                        cleanFilesData[fieldId] = validFiles;
+                    }
                 }
             }
-        }
 
-        const payload = {
-            responses: this.formData,
-            files: cleanFilesData,
-            headerMap: this.generateHeaderMap(),
-            sectionMap: this.generateSectionMap()
-        };
+            const payload = {
+                responses: this.formData,
+                files: cleanFilesData,
+                headerMap: this.generateHeaderMap(),
+                sectionMap: this.generateSectionMap()
+            };
 
-        try {
-            const response = await fetch(CONFIG.GAS_URL, {
-                method: 'POST',
-                mode: 'no-cors', 
-                body: JSON.stringify(payload)
-            });
+            try {
+                const response = await fetch(CONFIG.GAS_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', 
+                    body: JSON.stringify(payload)
+                });
 
-            // Even with no-cors, we assume success if no error is thrown
-            document.getElementById('preview-modal').style.display = 'none';
-            document.getElementById('success-screen').style.display = 'flex';
-            localStorage.removeItem('freshbus_draft');
-            window.scrollTo(0, 0);
-        } catch (e) {
-            console.error("Submission error:", e);
-            alert("Failed to connect to Google. Please check your internet.");
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Try Again';
-        }
+                // Even with no-cors, we assume success if no error is thrown
+                document.getElementById('preview-modal').style.display = 'none';
+                document.getElementById('success-screen').style.display = 'flex';
+                localStorage.removeItem('freshbus_draft');
+                window.scrollTo(0, 0);
+            } catch (e) {
+                console.error("Submission error:", e);
+                alert("Failed to connect to Google. Please check your internet.");
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Try Again';
+            }
+        }, 50);
     }
 
     generateHeaderMap() {
