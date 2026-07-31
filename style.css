@@ -129,8 +129,12 @@ body {
     gap: 1rem;
 }
 
+.logo-container img {
+    filter: invert(82%) sepia(85%) saturate(1478%) hue-rotate(345deg) brightness(101%) contrast(97%);
+}
+
 .header-title-compact {
-    color: var(--white);
+    color: var(--accent);
     font-weight: 800;
     font-size: 1.25rem;
     letter-spacing: -0.5px;
@@ -349,6 +353,8 @@ body {
     width: 100%;
     height: auto;
     object-fit: contain;
+    /* Convert black/dark to #FBBC04 Yellow */
+    filter: brightness(0) saturate(100%) invert(75%) sepia(61%) saturate(1637%) hue-rotate(345deg) brightness(102%) contrast(105%);
 }
 
 .intro-logo-fallback {
@@ -1005,6 +1011,8 @@ textarea:focus {
     height: 100px;
     width: auto;
     transition: height 0.3s ease;
+    /* Convert black/dark to #FBBC04 Yellow */
+    filter: brightness(0) saturate(100%) invert(75%) sepia(61%) saturate(1637%) hue-rotate(345deg) brightness(102%) contrast(105%);
 }
 
 .header-center {
@@ -1018,7 +1026,7 @@ textarea:focus {
 .header-title-compact {
     font-size: 1.8rem;
     font-weight: 800;
-    color: var(--white);
+    color: var(--accent);
     text-transform: capitalize;
     white-space: nowrap;
 }
