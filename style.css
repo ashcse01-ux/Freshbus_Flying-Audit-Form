@@ -61,12 +61,12 @@ body {
 
 /* Header & Progress */
 .app-header {
-    background: var(--bg-card);
+    background: var(--primary);
+    border-bottom: 4px solid var(--accent);
     padding: 0 2rem;
     position: relative;
     z-index: 1000;
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    border-bottom: 3px solid var(--accent);
     height: var(--header-height);
     display: flex;
     align-items: center;
@@ -74,42 +74,44 @@ body {
 }
 
 .theme-toggle {
-    background: var(--bg-light);
-    border: 1px solid var(--border);
-    color: var(--text-main);
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--white);
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .theme-toggle:hover {
     background: var(--accent);
     color: var(--primary);
+    border-color: var(--accent);
+    transform: rotate(15deg) scale(1.1);
 }
 
 .mobile-menu-btn {
     display: none;
-    background: var(--bg-light);
-    border: 1px solid var(--border);
-    color: var(--text-main);
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--white);
     width: 40px;
     height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
+    border-radius: 8px;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s;
-    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
 .mobile-menu-btn:hover {
     background: var(--accent);
     color: var(--primary);
+    border-color: var(--accent);
 }
 
 .header-content-compact {
@@ -128,7 +130,7 @@ body {
 }
 
 .header-title-compact {
-    color: var(--primary);
+    color: var(--white);
     font-weight: 800;
     font-size: 1.25rem;
     letter-spacing: -0.5px;
@@ -155,7 +157,7 @@ body {
     font-size: 0.75rem;
     font-weight: 600;
     margin-bottom: 6px;
-    color: var(--text-muted);
+    color: var(--white);
 }
 
 .progress-bar-bg {
@@ -1016,7 +1018,7 @@ textarea:focus {
 .header-title-compact {
     font-size: 1.8rem;
     font-weight: 800;
-    color: var(--primary);
+    color: var(--white);
     text-transform: capitalize;
     white-space: nowrap;
 }
@@ -1089,12 +1091,15 @@ textarea:focus {
         --footer-height: 70px;
     }
 
-    .app-header {
-        padding: 0 1rem;
-    }
-
     .header-center {
-        display: none; /* Hide title on tablet/mobile to save space */
+        display: flex; 
+        flex: 1;
+        justify-content: center;
+    }
+    .header-title-compact {
+        font-size: 1rem;
+        white-space: normal;
+        text-align: center;
     }
 
     .brand-logo {
