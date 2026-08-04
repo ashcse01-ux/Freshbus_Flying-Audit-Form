@@ -4,7 +4,7 @@
 
 const CONFIG = {
     // IMPORTANT: Replace this with your Google Apps Script Web App URL after deployment
-    GAS_URL: 'https://script.google.com/macros/s/AKfycby_HkiKhgXas8w7vJnqZgJ269uC7il--b7XwnElXVBFKdtDiR_3AeMRVTbU3qhaG4Kj/exec'
+    GAS_URL: 'https://script.google.com/macros/s/AKfycbxph3E2NGxaxe-yDJplpbTSwbDesHegOc9WeBmAiSqi15NN2Jk7J43yFae1wBDkQrMb/exec'
 };
 
 const SECTIONS_CONFIG = [
@@ -3644,13 +3644,6 @@ class FreshBusAudit {
                 }
             }
 
-            // Remove empty media placeholder keys from responses to prevent backend collisions
-            for (const key in sanitizedResponses) {
-                if (key.endsWith('_media')) {
-                    delete sanitizedResponses[key];
-                }
-            }
-
 
             const payload = {
                 responses: sanitizedResponses,
@@ -3724,15 +3717,11 @@ class FreshBusAudit {
 
     fileToBase64(file) {
         return new Promise((resolve, reject) => {
-            const fallbackReader = () => {
+            if (!file.type.startsWith('image/')) {
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
                 reader.onload = () => resolve(reader.result.split(',')[1]);
                 reader.onerror = error => reject(error);
-            };
-
-            if (!file.type.startsWith('image/')) {
-                fallbackReader();
                 return;
             }
 
@@ -3740,36 +3729,28 @@ class FreshBusAudit {
             const url = URL.createObjectURL(file);
             img.onload = () => {
                 URL.revokeObjectURL(url);
-                try {
-                    const canvas = document.createElement('canvas');
-                    let width = img.width;
-                    let height = img.height;
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
 
-                    const MAX = 1024;
-                    if (width > height && width > MAX) {
-                        height *= MAX / width;
-                        width = MAX;
-                    } else if (height > MAX) {
-                        width *= MAX / height;
-                        height = MAX;
-                    }
-
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-
-                    const dataUrl = canvas.toDataURL('image/jpeg', 0.6);
-                    resolve(dataUrl.split(',')[1]);
-                } catch (e) {
-                    console.warn("Canvas compression failed, falling back to raw file read:", e);
-                    fallbackReader();
+                const MAX = 1024;
+                if (width > height && width > MAX) {
+                    height *= MAX / width;
+                    width = MAX;
+                } else if (height > MAX) {
+                    width *= MAX / height;
+                    height = MAX;
                 }
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.6);
+                resolve(dataUrl.split(',')[1]);
             };
-            img.onerror = () => {
-                console.warn("Image onload failed, falling back to raw file read");
-                fallbackReader();
-            };
+            img.onerror = () => reject(new Error('Image load error'));
             img.src = url;
         });
     }
