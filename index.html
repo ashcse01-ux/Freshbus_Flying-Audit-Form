@@ -8,6 +8,95 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ═══ HEADER — RESPONSIVE & BREATHABLE ═══ */
+        :root { --header-height: 80px; }
+
+        .app-header {
+            height: var(--header-height);
+            min-height: var(--header-height);
+            padding: 0 1rem;
+            border-bottom: 2px solid var(--accent);
+            box-sizing: border-box;
+        }
+
+        /* Logo */
+        .brand-logo {
+            height: clamp(50px, 8vw, 70px);
+            width: auto;
+            display: block;
+            flex-shrink: 0;
+            object-fit: contain;
+        }
+
+        /* ═══ HEADER FLEX LAYOUT ═══ */
+        .header-content-compact {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            width: 100%;
+            gap: 0.75rem;
+            height: 100%;
+        }
+        .header-left {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+        }
+        .header-center {
+            flex: 1 1 0;
+            min-width: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .header-actions-right {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* ═══ TITLE — ALWAYS ONE LINE ═══ */
+        .header-title-compact {
+            font-size: clamp(0.75rem, 2.5vw, 1.1rem);
+            font-weight: 800;
+            color: var(--accent);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+            width: 100%;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        #motivational-msg {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.9);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-top: 4px;
+        }
+
+        /* ═══ TABLET SCREENS (<=768px) ═══ */
+        @media (max-width: 768px) {
+            :root { --header-height: 52px; }
+            .brand-logo { height: 26px; }
+            .progress-container-compact { width: 100px; margin-right: 0.25rem; }
+            .motivational-msg, #motivational-msg { display: none; }
+        }
+
+        /* ═══ PHONE SCREENS (<= 480px) ═══ */
+        @media (max-width: 480px) {
+            :root { --header-height: 48px; }
+            .brand-logo { height: 22px; }
+            .header-title-compact { font-size: clamp(0.6rem, 3.5vw, 0.85rem); }
+            .progress-container-compact { display: none; }
+            .header-content-compact { gap: 0.4rem; }
+        }
+    </style>
 </head>
 
 <body>
@@ -35,7 +124,9 @@
                     </div>
 
 
-
+                    <button id="btn-autofill" class="btn btn-primary" style="margin-right: 10px; font-size: 0.8rem; padding: 4px 12px; height: 36px;">
+                        <i class="fa-solid fa-magic"></i> Auto-Fill
+                    </button>
                     <button id="mobile-menu-btn" class="mobile-menu-btn" title="Toggle Menu" style="display: none;">
                         <i class="fa-solid fa-bars"></i>
                     </button>
@@ -107,7 +198,7 @@
         <div id="autosave-toast" class="toast">Draft Saved <i class="fa-solid fa-cloud-arrow-up"></i></div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=2"></script>
 </body>
 
 </html>

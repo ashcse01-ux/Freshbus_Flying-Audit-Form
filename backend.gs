@@ -134,7 +134,7 @@ function doGet(e) {
 function onOpen() {
   SpreadsheetApp.getUi().createMenu('✅ Audit Admin')
     .addItem('Validate Selected Entry & Copy to Final Report', 'validateSelectedEntry')
-    .addItem('📊 Generate Audit Presentation Deck (Final Report)', 'generateAuditPresentation')
+    // .addItem('📊 Generate Audit Presentation Deck (Final Report)', 'generateAuditPresentation') // DISABLED
     .addToUi();
 }
 
@@ -340,13 +340,11 @@ function validateSelectedEntry() {
  * Generates an executive-ready presentation deck for the currently selected audit row.
  */
 function generateAuditPresentation() {
+  SpreadsheetApp.getUi().alert('PPT Generation is currently disabled. Focus is on form filling and accurate response fetching.');
+  return;
+  
   const ss = SpreadsheetApp.getActiveSpreadsheet() || SpreadsheetApp.openById(SHEET_ID);
   const sheet = ss.getActiveSheet();
-  
-  if (!sheet || sheet.getName() !== 'Final_Report') {
-    SpreadsheetApp.getUi().alert('⚠️ Presentation Decks can ONLY be generated from validated entries in the "Final_Report" tab.\n\nPlease validate the entry first and switch to the "Final_Report" sheet.');
-    return;
-  }
 
   const range = sheet.getActiveRange();
   const row = range ? range.getRow() : 0;

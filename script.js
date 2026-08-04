@@ -1293,8 +1293,552 @@ const SECTIONS_CONFIG = [
                 "options": [
                     "Snack Box",
                     "Breakfast/Lunch/Dinner",
-                    "Both"
-                ]
+                    "Both",
+                    "N/A"
+                ],
+                "conditional": {
+                    "Snack Box": [
+                        "h_snack_box",
+                        "s6_sb1",
+                        "s6_sb2",
+                        "s6_sb3",
+                        "s6_sb4"
+                    ],
+                    "Breakfast/Lunch/Dinner": [
+                        "h_pitstop_food",
+                        "s6_pf1",
+                        "s6_pf2",
+                        "s6_pf3",
+                        "s6_pf4",
+                        "s6_pf5",
+                        "s6_pf6",
+                        "s6_pf7",
+                        "s6_pf8",
+                        "s6_pf9",
+                        "s6_pf10",
+                        "s6_pf11",
+                        "s6_pf12",
+                        "s6_pf13"
+                    ],
+                    "Both": [
+                        "h_snack_box",
+                        "s6_sb1",
+                        "s6_sb2",
+                        "s6_sb3",
+                        "s6_sb4",
+                        "h_pitstop_food",
+                        "s6_pf1",
+                        "s6_pf2",
+                        "s6_pf3",
+                        "s6_pf4",
+                        "s6_pf5",
+                        "s6_pf6",
+                        "s6_pf7",
+                        "s6_pf8",
+                        "s6_pf9",
+                        "s6_pf10",
+                        "s6_pf11",
+                        "s6_pf12",
+                        "s6_pf13"
+                    ]
+                }
+            },
+            {
+                "id": "h_snack_box",
+                "type": "heading",
+                "label": "SNACK BOX QUESTIONS",
+                "hidden": true
+            },
+            {
+                "id": "s6_sb1",
+                "type": "rating",
+                "label": "Was snack box distributed to you by the co-captain?",
+                "required": true,
+                "hidden": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_sb2",
+                "type": "rating",
+                "label": "If provided, was the snack box properly sealed, fresh, and in good condition?",
+                "required": true,
+                "hidden": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_sb3",
+                "type": "rating",
+                "label": "Was snack box items close to expiry or expired? If yes, describe the issue in detail and upload the image of the item.",
+                "required": true,
+                "hidden": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_sb4",
+                "type": "rating",
+                "label": "Were all items present inside the snack box? (Items Include - Juice Packet, Wet Wipes, Namkeen Packet, Peanut Chikki). If not, describe in detail what items are missing.",
+                "required": true,
+                "hidden": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "h_pitstop_food",
+                "type": "heading",
+                "label": "PITSTOP FOOD SERVICE - BREAKFAST/LUNCH/DINNER",
+                "hidden": true
+            },
+            {
+                "id": "s6_pf1",
+                "type": "rating",
+                "label": "Was the pitstop location communicated clearly in advance?",
+                "required": true,
+                "hidden": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_pf2",
+                "type": "rating",
+                "label": "Was the stop duration sufficient to comfortably finish the meal?",
+                "required": true,
+                "hidden": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_pf3",
+                "type": "rating",
+                "label": "Was the food served promptly upon arrival or was there a waiting time?",
+                "required": true,
+                "hidden": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_pf4",
+                "type": "rating",
+                "label": "Was the food served at appropriate temperature?",
+                "required": true,
+                "hidden": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_pf5",
+                "type": "rating",
+                "label": "Were the portion sizes of the meal Adequate?",
+                "required": true,
+                "hidden": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_pf6",
+                "type": "rating",
+                "label": "Did the taste and quality of the food served meet expectations?",
+                "required": true,
+                "hidden": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_pf7",
+                "type": "rating",
+                "label": "Was drinking water easily available and safe?",
+                "required": true,
+                "hidden": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_pf8",
+                "type": "rating",
+                "label": "Were serving utensils, plates, and glasses clean and hygienic?",
+                "required": true,
+                "hidden": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_pf9",
+                "type": "rating",
+                "label": "Were add-ons (extra servings, beverages) available if needed?",
+                "required": true,
+                "hidden": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_pf10",
+                "type": "rating",
+                "label": "Was AC Working on the Pitstop Freshbus Dining Area?",
+                "required": true,
+                "hidden": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_pf11",
+                "type": "rating",
+                "label": "Did the co-captain inform passengers about the QR code for the free meal (Breakfast/Lunch/Dinner) to be received on their WhatsApp — the number provided during booking?",
+                "required": true,
+                "hidden": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_pf12",
+                "type": "rating",
+                "label": "If a customer did not receive the QR code, did the co-captain and Freshbus Dining Area staff assist by asking for their PNR number and providing the free meal?",
+                "required": true,
+                "hidden": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_pf13",
+                "type": "rating",
+                "label": "Was the customer's meal QR code scanned by staff at the Freshbus Dining Area at the pitstop?",
+                "required": true,
+                "hidden": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "type": "heading",
+                "label": "🧼 PITSTOP OVERALL EXPERIENCE & HYGIENE"
+            },
+            {
+                "id": "s6_po1",
+                "type": "rating",
+                "label": "Was the pitstop facility clean and well-maintained overall?",
+                "required": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_po2",
+                "type": "rating",
+                "label": "Were restrooms hygienic, functional, and adequately stocked?",
+                "required": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_po3",
+                "type": "rating",
+                "label": "Was handwashing/sanitization available and accessible?",
+                "required": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_po4",
+                "type": "rating",
+                "label": "Did the location feel safe and well-lit?",
+                "required": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_po5",
+                "type": "rating",
+                "label": "Was there adequate seating and space for passengers?",
+                "required": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_po6",
+                "type": "rating",
+                "label": "Was crowd management handled properly at the location?",
+                "required": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_po7",
+                "type": "rating",
+                "label": "Were waste disposal bins available and used effectively?",
+                "required": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_po8",
+                "type": "rating",
+                "label": "Was the environment (noise, smell, cleanliness) comfortable?",
+                "required": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_po9",
+                "type": "rating",
+                "label": "Was the stop duration well-balanced (not rushed or too long)?",
+                "required": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_po10",
+                "type": "rating",
+                "label": "Did the pitstop enhance or disrupt your overall journey experience?",
+                "required": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_po11",
+                "type": "rating",
+                "label": "Were there clear signages for facilities (restrooms, food counters, etc.)?",
+                "required": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_po12",
+                "type": "rating",
+                "label": "Was staff behavior at the pitstop courteous and helpful?",
+                "required": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "type": "heading",
+                "label": "🚌 JOURNEY RESTART EXPERIENCE (POST PITSTOP)"
+            },
+            {
+                "id": "s6_jr1",
+                "type": "rating",
+                "label": "Was a clear announcement made before restarting the journey?",
+                "required": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_jr2",
+                "type": "rating",
+                "label": "Were passengers given sufficient notice/time to return to the bus?",
+                "required": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_jr3",
+                "type": "rating",
+                "label": "Did the captain/co-captain actively check if all passengers had boarded before departure?",
+                "required": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_jr4",
+                "type": "rating",
+                "label": "Was the passenger count re-verified before restarting the journey?",
+                "required": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_jr5",
+                "type": "rating",
+                "label": "Was there any confusion or rush during the re-boarding process?",
+                "required": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_jr6",
+                "type": "rating",
+                "label": "Were any passengers left behind or reboarding issues observed?",
+                "required": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "type": "heading",
+                "label": "🔋 EV CHARGING EXPERIENCE"
+            },
+            {
+                "id": "s6_ev1",
+                "type": "rating",
+                "label": "Did the charging process cause any delays beyond the expected time, and were timely updates provided?",
+                "required": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_ev2",
+                "type": "rating",
+                "label": "Did the charging stop disrupt your journey schedule significantly?",
+                "required": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
+            },
+            {
+                "id": "s6_ev3",
+                "type": "rating",
+                "label": "During the charging delay, what was the AC condition inside the bus and how did it impact passenger comfort?",
+                "required": true,
+                "descriptionTrigger": [
+                    1,
+                    2,
+                    5
+                ],
+                "descriptionLabel": "Audit Observation Details (Mandatory for 1, 2, or 5 stars):"
             },
             {
                 "type": "heading",
@@ -1303,13 +1847,13 @@ const SECTIONS_CONFIG = [
             {
                 "id": "s6_good",
                 "type": "textarea",
-                "label": "Share your positive highlights for Food, Pitstop, & Charging",
+                "label": "✨ Share your positive highlights for Food, Pitstop, & Charging",
                 "required": true
             },
             {
                 "id": "s6_wrong",
                 "type": "textarea",
-                "label": "Mention any gaps or areas for improvement in Food, Pitstop, & Charging",
+                "label": "⚠️ Mention any gaps or areas for improvement in Food, Pitstop, & Charging",
                 "required": true
             },
             {
@@ -2178,6 +2722,10 @@ class FreshBusAudit {
         this.elements.themeBtn.addEventListener('click', () => this.toggleTheme());
         document.getElementById('confirm-submit').addEventListener('click', () => this.finalizeSubmission());
 
+        const btnAutofill = document.getElementById('btn-autofill');
+        if (btnAutofill) {
+            btnAutofill.addEventListener('click', () => this.fillAllAndGo());
+        }
         // Modal close
         document.querySelector('.close-modal').onclick = () => {
             document.getElementById('preview-modal').style.display = 'none';
@@ -2264,7 +2812,7 @@ class FreshBusAudit {
             const pIdx = this.passengers.findIndex(p => p.id == id);
             if (pIdx > -1) this.passengers[pIdx][field] = value;
         }
-        
+
         this.formData[name] = value;
 
         this.saveDraft();
@@ -2298,7 +2846,7 @@ class FreshBusAudit {
         if (qConfig && qConfig.descriptionTrigger) {
             const descEl = document.getElementById(`desc_box_${name}`);
             if (descEl) {
-                const show = qConfig.descriptionTrigger.includes(Number(value));
+                const show = !!value;
                 descEl.style.display = show ? 'block' : 'none';
                 if (!show) this.formData[`${name}_desc`] = "N/A";
             }
@@ -2452,7 +3000,7 @@ class FreshBusAudit {
         if (horizontalNav) horizontalNav.style.display = 'none';
         if (headerProgress) headerProgress.style.display = 'none';
         if (appFooter) appFooter.style.display = 'none';
-        
+
         if (formContainer) {
             formContainer.classList.add('intro-mode');
         }
@@ -2469,12 +3017,12 @@ class FreshBusAudit {
                 <h1 class="intro-welcome">Welcome, Auditor! 👋</h1>
                 <p class="intro-text" style="font-size: 1.05rem; line-height: 1.6; margin-bottom: 1.5rem; text-align: left;">
                     You're an important part of the <strong>FreshBus Flying Audit Program</strong>.<br><br>
-                    Every photo you capture, every rating you give, and every observation you share helps us create a better travel experience for thousands of passengers.
+                    Every photo you capture, every rating you give, and every observation you share helps us create a better travel experience for millions of passengers.
                 </p>
                 
                 <div class="reward-highlight">
                     <i class="fa-solid fa-gift"></i>
-                    <span>Be honest. Be accurate. Your valuable feedback makes a real difference—and qualifies you for exciting rewards!</span>
+                    <span>Be honest. Be accurate. Your valuable feedback makes a real difference - and qualifies you for exciting rewards!</span>
                 </div>
 
                 <div class="guidelines-box">
@@ -2506,13 +3054,6 @@ class FreshBusAudit {
                 <button type="button" class="btn btn-submit" style="width: 100%; justify-content: center; margin: 0; padding: 1rem;" onclick="window.app.nextStep()">
                     Start My Audit <i class="fa-solid fa-play"></i>
                 </button>
-
-                <div style="margin-top: 2rem; border-top: 1px dashed var(--border); padding-top: 1rem;">
-                    <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 0.5rem;">For Testing Purposes Only:</p>
-                    <button type="button" class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.5rem 1rem;" onclick="window.app.fillAllAndGo()">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i> Auto-Fill Everything & Go to End
-                    </button>
-                </div>
             </div>
         `;
         this.elements.renderArea.innerHTML = html;
@@ -2638,12 +3179,11 @@ class FreshBusAudit {
 
                 questionHtml += `</div>`; // end rating-inline-container
 
-                // Conditional description box
-                const showDesc = q.descriptionTrigger && q.descriptionTrigger.includes(Number(val));
+                const showDesc = !!val;
                 questionHtml += `
                     <div id="desc_box_${q.id}" class="conditional-box" style="margin-top:1.5rem; display:${showDesc ? 'block' : 'none'}; width: 100%;">
-                        <label class="question-label" style="font-size:0.9rem">${q.descriptionLabel || 'Please provide details:'}</label>
-                        <textarea name="${q.id}_desc" maxlength="2000" placeholder="Describe the reason for this rating...">${this.formData[q.id + '_desc'] || ''}</textarea>
+                        <label class="question-label" style="font-size:0.9rem">${q.descriptionLabel || 'Please provide details:'} <span class="required">*</span></label>
+                        <textarea name="${q.id}_desc" maxlength="2000" placeholder="Describe the reason for this rating..." ${showDesc ? 'required' : ''}>${this.formData[q.id + '_desc'] || ''}</textarea>
                     </div>
                 `;
                 break;
@@ -2844,11 +3384,13 @@ class FreshBusAudit {
 
         let hiddenFields = new Set();
         section.questions.forEach(q => {
-            const val = this.formData[q.id];
-            if (val && q.conditional) {
+            if (q.conditional) {
+                const val = this.formData[q.id];
                 Object.values(q.conditional).flat().forEach(id => hiddenFields.add(id));
-                const rules = q.conditional[val] || [];
-                rules.forEach(id => hiddenFields.delete(id));
+                if (val) {
+                    const rules = q.conditional[val] || [];
+                    rules.forEach(id => hiddenFields.delete(id));
+                }
             }
         });
 
@@ -2908,7 +3450,20 @@ class FreshBusAudit {
                     this.markError(q.id, q.validationMsg || "This field is required", wrapper);
                     if (!firstError) firstError = wrapper;
                 } else {
-                    this.clearError(q.id, wrapper);
+                    const descEl = document.getElementById(`desc_box_${q.id}`);
+                    if (descEl && descEl.style.display !== 'none') {
+                        const descVal = this.formData[`${q.id}_desc`];
+                        if (!descVal || !descVal.trim() || descVal === "N/A") {
+                            isFieldValid = false;
+                            isValid = false;
+                            this.markError(q.id, "Please provide details in the description box below the rating.", wrapper);
+                            if (!firstError) firstError = wrapper;
+                        } else {
+                            this.clearError(q.id, wrapper);
+                        }
+                    } else {
+                        this.clearError(q.id, wrapper);
+                    }
                 }
             }
         });
@@ -2963,13 +3518,13 @@ class FreshBusAudit {
     updateProgress() {
         const total = SECTIONS_CONFIG.length;
         let completed = 0;
-        
+
         for (let i = 0; i < total; i++) {
             if (this.isSectionValid(i)) {
                 completed++;
             }
         }
-        
+
         const percent = Math.round((completed / total) * 100);
 
         const elPercent = this.elements.progressBar('progress-percent');
@@ -2997,13 +3552,13 @@ class FreshBusAudit {
         // Enforce final submission validation
         const total = SECTIONS_CONFIG.length;
         let incompleteSections = [];
-        
+
         for (let i = 0; i < total; i++) {
             if (!this.isSectionValid(i)) {
                 incompleteSections.push(SECTIONS_CONFIG[i].title);
             }
         }
-        
+
         if (incompleteSections.length > 0) {
             alert("Kindly fill all the sections in order to complete your flying audit.\n\nIncomplete:\n- " + incompleteSections.join('\n- '));
             return;
@@ -3072,10 +3627,11 @@ class FreshBusAudit {
                     // Format passenger list as numbered, labelled rows
                     sanitizedResponses[key] = val.map((p, idx) => {
                         const parts = [];
-                        if (p.name)     parts.push(`Name: ${p.name}`);
+                        if (p.name) parts.push(`Name: ${p.name}`);
                         if (p.seatType) parts.push(`Seat Type: ${p.seatType}`);
-                        if (p.seatNo)   parts.push(`Seat No: ${p.seatNo}`);
-                        if (p.feedback) parts.push(`Feedback: ${p.feedback}`);
+                        if (p.seatNo) parts.push(`Seat No: ${p.seatNo}`);
+                        if (p.good) parts.push(`Positive: ${p.good}`);
+                        if (p.wrong) parts.push(`Negative: ${p.wrong}`);
                         return `Passenger ${idx + 1} → ${parts.length ? parts.join(' | ') : 'No details'}`;
                     }).join('\n');
                 } else if (Array.isArray(val)) {
@@ -3099,7 +3655,7 @@ class FreshBusAudit {
             try {
                 const response = await fetch(CONFIG.GAS_URL, {
                     method: 'POST',
-                    mode: 'no-cors', 
+                    mode: 'no-cors',
                     body: JSON.stringify(payload)
                 });
 
@@ -3131,15 +3687,15 @@ class FreshBusAudit {
                 }
             });
         });
-        
+
         this.passengers.forEach((p, idx) => {
-            map[`p_name_${p.id}`] = `[Section 12] Passenger ${idx+1} Name`;
-            map[`p_seatType_${p.id}`] = `[Section 12] Passenger ${idx+1} Seat Type`;
-            map[`p_seatNo_${p.id}`] = `[Section 12] Passenger ${idx+1} Seat No`;
-            map[`p_good_${p.id}`] = `[Section 12] Passenger ${idx+1} Positive Feedback`;
-            map[`p_wrong_${p.id}`] = `[Section 12] Passenger ${idx+1} Negative Feedback`;
+            map[`p_name_${p.id}`] = `[Section 12] Passenger ${idx + 1} Name`;
+            map[`p_seatType_${p.id}`] = `[Section 12] Passenger ${idx + 1} Seat Type`;
+            map[`p_seatNo_${p.id}`] = `[Section 12] Passenger ${idx + 1} Seat No`;
+            map[`p_good_${p.id}`] = `[Section 12] Passenger ${idx + 1} Positive Feedback`;
+            map[`p_wrong_${p.id}`] = `[Section 12] Passenger ${idx + 1} Negative Feedback`;
         });
-        
+
         return map;
     }
 
@@ -3174,7 +3730,7 @@ class FreshBusAudit {
                 const canvas = document.createElement('canvas');
                 let width = img.width;
                 let height = img.height;
-                
+
                 const MAX = 1024;
                 if (width > height && width > MAX) {
                     height *= MAX / width;
@@ -3183,12 +3739,12 @@ class FreshBusAudit {
                     width *= MAX / height;
                     height = MAX;
                 }
-                
+
                 canvas.width = width;
                 canvas.height = height;
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(img, 0, 0, width, height);
-                
+
                 const dataUrl = canvas.toDataURL('image/jpeg', 0.6);
                 resolve(dataUrl.split(',')[1]);
             };
