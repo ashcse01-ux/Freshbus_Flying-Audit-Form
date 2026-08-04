@@ -2722,10 +2722,6 @@ class FreshBusAudit {
         this.elements.themeBtn.addEventListener('click', () => this.toggleTheme());
         document.getElementById('confirm-submit').addEventListener('click', () => this.finalizeSubmission());
 
-        const btnAutofill = document.getElementById('btn-autofill');
-        if (btnAutofill) {
-            btnAutofill.addEventListener('click', () => this.fillAllAndGo());
-        }
         // Modal close
         document.querySelector('.close-modal').onclick = () => {
             document.getElementById('preview-modal').style.display = 'none';
@@ -3770,43 +3766,6 @@ class FreshBusAudit {
             this.render();
             this.showToast("File removed.");
         }
-    }
-
-    fillAllAndGo() {
-        if (!confirm("This will fill all required fields with test data. Proceed?")) return;
-
-        SECTIONS_CONFIG.forEach((sec, idx) => {
-            sec.questions.forEach(q => {
-                if (q.id) {
-                    if (q.type === 'text' || q.type === 'number') {
-                        this.formData[q.id] = q.id === 'pnr' ? '1234567' : 'Test Data';
-                    } else if (q.type === 'textarea') {
-                        this.formData[q.id] = 'Auto-filled test response.';
-                    } else if (q.type === 'rating') {
-                        this.formData[q.id] = "4";
-                    } else if (q.type === 'select') {
-                        this.formData[q.id] = q.options[0];
-                    } else if (q.type === 'radio') {
-                        this.formData[q.id] = q.options[0];
-                    } else if (q.type === 'checkbox') {
-                        this.formData[q.id] = [q.options[0]];
-                    } else if (q.type === 'file') {
-                        if (idx < SECTIONS_CONFIG.length - 1) {
-                            this.filesData[q.id] = [{
-                                name: 'dummy_auto_file.txt',
-                                type: 'text/plain',
-                                base64: 'ZHVtbXk='
-                            }];
-                        }
-                    }
-                }
-            });
-        });
-
-        this.currentStep = SECTIONS_CONFIG.length - 1;
-        this.saveDraft();
-        this.render();
-        this.updateProgress();
     }
 }
 
