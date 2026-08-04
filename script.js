@@ -4,7 +4,7 @@
 
 const CONFIG = {
     // IMPORTANT: Replace this with your Google Apps Script Web App URL after deployment
-    GAS_URL: 'https://script.google.com/macros/s/AKfycbx8_B6w1dekk4Ij1gLy5icZVAvTf_lqLGV-gPDCSjZu9h_SwcEQSHR66a2Gj4_2KCU7/exec'
+    GAS_URL: 'https://script.google.com/macros/s/AKfycbz-F3fQ2w5rhFIlqArRG3muX4yEpNEaMjelVR6PqilOd5X2vgFpraf__t_3gsIprB0D/exec'
 };
 
 const SECTIONS_CONFIG = [
