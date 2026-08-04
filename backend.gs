@@ -5,6 +5,128 @@
 const ROOT_FOLDER = 'FreshBus_Audit_Media';
 const SHEET_ID = "1IK7xEPOVJqZ7C6o5OLzNCzmikReQ9nXricotb7JE18M";
 
+// -------------------------------------------------------------
+// CONFIGURATION
+// -------------------------------------------------------------
+const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY"; // Get from aistudio.google.com
+const LOGO_DRIVE_ID = "16Cn2l_koZXUCgdYMO2vLeucRgePpb-7w"; // The FreshBus Logo Drive ID
+
+// -------------------------------------------------------------
+// GAP STATEMENTS MAPPING (For Ratings <= 3)
+// -------------------------------------------------------------
+const NEGATIVE_STATEMENTS_MAP = {
+  // Section 2: Staff Behaviour & Professionalism
+  "s2_q1": "Unprofessional pre-journey communication",
+  "s2_u1": "Uniform non-compliance",
+  "s2_u3": "Poor grooming standards",
+  "s2_c1": "Tobacco/Gum consumption by staff",
+  "s2_q16": "Rude language or arguments with passengers",
+  "s2_q11": "Unprofessional staff behaviour",
+  "s2_q15": "Inadequate assistance to special-needs passengers",
+  "s2_f1": "Motion sickness guidance not provided",
+  "s2_q17": "Stop announcements missing or unclear",
+  "s2_q18": "Inadequate passenger headcount during re-boarding",
+
+  // Section 3: Pickup Responsibilities
+  "s3_p1": "Pickup Delay",
+  "s8_q2": "Luggage Tagging Non-Compliance",
+  "s3_p2": "Staff Not Present at Boarding",
+  "s3_p3": "Ticket Verification Failure",
+  "s3_p6": "Improper Luggage Handling",
+  "s3_p8": "No Assistance with Overhead Luggage",
+  "s3_p7": "Seat Conflict Mishandled",
+
+  // Section 4: Bus Cleanliness & Maintenance
+  "s4_q1": "Bus exterior dirty or poorly maintained",
+  "s4_q2": "Entry steps dirty or unsafe",
+  "s4_m1": "Floor mat missing, dirty, or damaged",
+  "s4_q5": "Seat/Berth surface dirty or dusty",
+  "s4_q6": "Stains or spill marks on seat/berth",
+  "s4_q6_a": "Trash found on seat/berth",
+  "s4_c1": "Seat cushioning uncomfortable",
+  "s4_c2": "Poor backrest support",
+  "s4_c3": "Insufficient leg space",
+  "s4_c4": "Reclining mechanism not working properly",
+  "s4_sa1": "Floor dirty or littered",
+  "s4_sa2": "Aisle obstructed",
+  "s4_sa3": "Under-seat area dirty",
+  "s4_sa4": "Armrests or handles dirty",
+  "s4_q17": "Windows dirty or smudged",
+  "s4_w1": "Curtains dirty or damaged",
+  "s4_w2": "Curtain hooks broken or not functioning",
+  "s4_b1": "Bottle holder damaged or not functional",
+  "s4_b2": "Magazine holder damaged or not functional",
+  "s4_b3": "Sleeper luggage compartment dirty, damaged, or broken",
+  "s4_q21": "Air conditioning not working properly",
+  "s4_av1": "Cabin temperature uncomfortable",
+  "s4_v1": "Loose or damaged AC fittings observed",
+  "s4_q25": "Bad odour inside the bus",
+  "s4_o1": "Excessive air freshener smell",
+  "s4_u1": "USB port not working",
+  "s4_u2": "Type-C charging port not working",
+  "s4_uf1": "Reading light not functioning",
+  "s4_nr2": "Excessive cabin noise",
+  "s4_nr4": "Rough or uncomfortable ride",
+  "s4_sleeper_clean": "Blankets, bedsheets, or pillows dirty, damaged, or poorly maintained",
+
+  // Section 5: Driving & Technical Safety
+  "s5_m1": "Vehicle Vibration Issue",
+  "s5_m2": "Engine Noise Detected",
+  "s5_m3": "Smoke/Burning Smell Detected",
+  "s5_m4": "Unstable Vehicle Performance",
+  "s5_m5": "Vehicle Breakdown/Technical Fault",
+  "s5_sv_fire": "Fire Extinguisher Missing",
+  "s5_sv_hammer": "Emergency Hammer Missing",
+  "s5_sv_firstaid": "First Aid Kit Unavailable",
+  "s5_fit1": "Suspected Staff Intoxication (Critical)",
+  "s5_fit2": "Alcohol Smell Detected (Critical)",
+  "s5_fit3": "Abnormal Staff Behaviour (Critical)",
+  "s5_fit4": "Impaired Communication by Staff (Critical)",
+
+  // Section 7: Announcements
+  "s7_q1": "Welcome Announcement Missing",
+  "s7_q3": "Route/Delay Announcement Missing",
+  "s7_q5": "Drop-off Announcement Missing",
+  "s7_q6": "Unclear Announcements",
+  "s7_q8": "Unprofessional Announcement Tone",
+  "s7_q9": "Poor Announcement Quality",
+  "s7_q10": "Feedback Request Not Made",
+
+  // Section 8: Pilferage Check (If Yes is selected)
+  "s8_q1": "Unauthorized Passenger (Critical)",
+  "s8_q3": "Cash Collected Without Receipt (Critical)",
+  "s8_q4": "Extra Money Demanded (Critical)",
+  "s8_q5": "Off-System Payment Requested (Critical)",
+  "s8_q6": "Fare-Inclusive Service Charged (Critical)",
+  "s8_q7": "Unexplained Cash Collection (Critical)",
+  "s8_q8": "Discreet Cash Acceptance (Critical)",
+  "s8_q9": "Direct Cash Boarding (Critical)",
+  "s8_q10": "Unethical Cash Handling (Critical)",
+
+  // Section 9: Delay Adherence
+  "s9_q1": "Late Departure",
+  "s9_q2": "Delay Poorly Managed",
+  "s9_q5": "Delay Reason Not Communicated",
+  "s9_q6": "No Delay Updates",
+  "s9_q6b": "No Passenger Reassurance",
+  "s9_q7": "Operational Delay",
+  "s9_q8": "Unnecessary Stops",
+  "s9_q9": "Poor Delay Handling",
+  "s9_q10": "Poor Schedule Management",
+
+  // Section 10: Safety & Security
+  "s10_q4": "Passenger Felt Unsafe",
+  "s10_q5": "ID Verification Failure",
+  "s10_q7": "Harassment Reported",
+  "s10_q8": "Passenger Altercation",
+  "s10_q11": "Poor Incident Response (Critical)",
+
+  // Section 11: Drop Responsibilities
+  "s11_d1": "Delayed Drop Arrival",
+  "s11_d3": "Poor Deboarding Management",
+  "s11_d4": "Luggage Return Issue"
+};
+
 function doGet(e) {
   return ContentService.createTextOutput("FreshBus Audit Web App Backend is Live!");
 }
@@ -81,8 +203,39 @@ function doPost(e) {
       pendingSheet.setFrozenColumns(5);
     }
     
-    const headers = pendingSheet.getRange(1, 1, 1, pendingSheet.getLastColumn()).getValues()[0];
-    const newRow = headers.map(id => fullData[id] !== undefined ? fullData[id] : "");
+    let headers = pendingSheet.getRange(1, 1, 1, pendingSheet.getLastColumn()).getValues()[0];
+    
+    // Check if there are new keys in fullData that aren't in headers
+    const newKeys = Object.keys(fullData).filter(k => !headers.includes(k));
+    if (newKeys.length > 0) {
+      const lastCol = pendingSheet.getLastColumn();
+      pendingSheet.getRange(1, lastCol + 1, 1, newKeys.length).setValues([newKeys]);
+      
+      if (payload.headerMap) {
+        pendingSheet.getRange(2, lastCol + 1, 1, newKeys.length).setValues([newKeys.map(k => payload.headerMap[k] || k)]);
+      } else {
+        pendingSheet.getRange(2, lastCol + 1, 1, newKeys.length).setValues([newKeys]);
+      }
+      
+      headers = headers.concat(newKeys); // Update headers array
+    }
+
+    const serializeValue = (val) => {
+      if (val === undefined || val === null) return "";
+      if (Array.isArray(val)) {
+        // Flat array of primitives → join with comma (e.g. checkbox selections)
+        if (val.every(item => typeof item !== 'object' || item === null)) {
+          return val.join(', ');
+        }
+        // Nested array or array of objects (e.g. passengers) → JSON string
+        return JSON.stringify(val);
+      }
+      if (typeof val === 'object') {
+        return JSON.stringify(val);
+      }
+      return val;
+    };
+    const newRow = headers.map(id => serializeValue(fullData[id]));
     pendingSheet.appendRow(newRow);
     
     return ContentService.createTextOutput("Success");
@@ -142,6 +295,24 @@ function validateSelectedEntry() {
   }
 
   const lastCol = sheet.getLastColumn();
+
+  // Sync missing headers to Final_Report if needed
+  const finalLastCol = finalSheet.getLastColumn();
+  if (lastCol > finalLastCol && finalLastCol > 0) {
+    const missingCount = lastCol - finalLastCol;
+    
+    // Ensure Final_Report has enough physical columns before getting range
+    if (finalSheet.getMaxColumns() < lastCol) {
+      finalSheet.insertColumnsAfter(finalSheet.getMaxColumns(), lastCol - finalSheet.getMaxColumns());
+    }
+    
+    const missingIds = sheet.getRange(1, finalLastCol + 1, 1, missingCount).getValues()[0];
+    const missingLabels = sheet.getRange(2, finalLastCol + 1, 1, missingCount).getValues()[0];
+    
+    finalSheet.getRange(1, finalLastCol + 1, 1, missingCount).setValues([missingIds]);
+    finalSheet.getRange(2, finalLastCol + 1, 1, missingCount).setValues([missingLabels]);
+  }
+
   const rowData = sheet.getRange(row, 1, 1, lastCol).getValues()[0];
 
   if (rowData[0] === 'VALIDATED') {
@@ -153,10 +324,16 @@ function validateSelectedEntry() {
   rowData[0] = 'VALIDATED';
   sheet.getRange(row, 1).setValue('VALIDATED');
   
-  // Append to Final_Report
-  finalSheet.appendRow(rowData);
+  // Append to Final_Report explicitly at the actual last row
+  const targetRow = finalSheet.getLastRow() + 1;
+  
+  if (finalSheet.getMaxColumns() < rowData.length) {
+    finalSheet.insertColumnsAfter(finalSheet.getMaxColumns(), rowData.length - finalSheet.getMaxColumns());
+  }
+  
+  finalSheet.getRange(targetRow, 1, 1, rowData.length).setValues([rowData]);
 
-  SpreadsheetApp.getUi().alert(`✅ Audit Entry (Row ${row}) successfully validated and copied to Final Report!`);
+  SpreadsheetApp.getUi().alert(`✅ Audit Entry (Row ${row}) successfully validated and copied to Final Report (Row ${targetRow})!`);
 }
 
 /**
@@ -179,16 +356,41 @@ function generateAuditPresentation() {
     return;
   }
 
-  const keys = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
-  const labels = sheet.getRange(2, 1, 1, sheet.getLastColumn()).getValues()[0];
-  const rowData = sheet.getRange(row, 1, 1, sheet.getLastColumn()).getValues()[0];
+  const lastCol = sheet.getLastColumn();
+  const headers = sheet.getRange(1, 1, 1, lastCol).getValues()[0];
+  
+  // SELF-HEALING: If Final_Report is missing header text for some columns, pull it from Pending_Audits
+  const pendingSheet = ss.getSheetByName('Pending_Audits');
+  if (pendingSheet) {
+    const pLastCol = pendingSheet.getLastColumn();
+    if (pLastCol > 0) {
+      const pHeaders = pendingSheet.getRange(1, 1, 1, pLastCol).getValues()[0];
+      const pLabels = pendingSheet.getRange(2, 1, 1, pLastCol).getValues()[0];
+      
+      let needsUpdate = false;
+      for (let i = 0; i < headers.length; i++) {
+        if (!headers[i] && i < pHeaders.length && pHeaders[i]) {
+          headers[i] = pHeaders[i];
+          sheet.getRange(1, i + 1).setValue(pHeaders[i]);
+          sheet.getRange(2, i + 1).setValue(pLabels[i]);
+          needsUpdate = true;
+        }
+      }
+      if (needsUpdate) {
+        Logger.log("Self-healed missing headers in Final_Report");
+      }
+    }
+  }
+
+  const rowData = sheet.getRange(row, 1, 1, lastCol).getValues()[0];
   
   // Map row into key-value & label objects
   const audit = {};
   const labelMap = {};
-  for (let i = 0; i < keys.length; i++) {
-    audit[keys[i]] = rowData[i];
-    labelMap[keys[i]] = labels[i] || keys[i];
+  const labels = sheet.getRange(2, 1, 1, lastCol).getValues()[0];
+  for (let i = 0; i < headers.length; i++) {
+    audit[headers[i]] = rowData[i];
+    labelMap[headers[i]] = labels[i] || headers[i];
   }
 
   const pnr = audit.pnr || audit.PNR || 'Audit';
@@ -206,72 +408,42 @@ function generateAuditPresentation() {
   coverSlide.getPageElements().forEach(el => el.remove());
 
   // -------------------------------------------------------------
-  // SLIDE 1: COVER & EXECUTIVE DASHBOARD
+  // SLIDE 1: COVER
   // -------------------------------------------------------------
-  coverSlide.getBackground().setSolidFill('#0B192C'); // Dark Executive Navy
+  coverSlide.getBackground().setSolidFill('#FFFFFF');
   
-  // FreshBus Logo (top-left corner)
+  // FreshBus Logo (top-right corner)
+  // FreshBus Logo (top-right)
   try {
-    // Correct file ID parsed from user's URL:
-    // https://drive.google.com/file/d/1xptDoxHrnDgzzqtEt4-AdD7neovxgREX/view?usp=drive_link
-    const logoFile = DriveApp.getFileById('1xptDoxHrnDgzzqtEt4-AdD7neovxgREX');
+    const logoFile = DriveApp.getFileById(LOGO_DRIVE_ID);
     const logoImg = coverSlide.insertImage(logoFile.getBlob());
-    logoImg.setLeft(30).setTop(30).setWidth(80).setHeight(80);
+    logoImg.setLeft(530).setTop(20).setWidth(170).setHeight(55);
   } catch (logoErr) {
     Logger.log('Logo embed skipped: ' + logoErr);
+    // Add fallback text if logo fails to load so it's not totally blank
+    const fallbackBox = coverSlide.insertShape(SlidesApp.ShapeType.TEXT_BOX, 530, 20, 170, 55);
+    fallbackBox.getText().setText("FreshBus").getTextStyle().setFontFamily("Roboto").setFontSize(24).setBold(true).setForegroundColor("#0045AD");
+    fallbackBox.getText().getParagraphStyle().setParagraphAlignment(SlidesApp.ParagraphAlignment.CENTER);
   }
 
-  // Top Header Banner
-  const titleBox = coverSlide.insertShape(SlidesApp.ShapeType.ROUND_RECTANGLE, 120, 30, 570, 100);
-  titleBox.getFill().setSolidFill('#0045AD'); // Fresh Blue
+  // Cover Title (Middle-center)
+  const titleBox = coverSlide.insertShape(SlidesApp.ShapeType.TEXT_BOX, 50, 110, 620, 100);
   const titleTxt = titleBox.getText();
-  titleTxt.setText("🚌 FRESHBUS FLYING AUDIT\nEXECUTIVE REPORT");
-  titleTxt.getTextStyle().setFontFamily("Roboto").setFontSize(22).setBold(true).setForegroundColor("#FFFFFF");
-  
-  // Metadata Card Left
-  const metaBox = coverSlide.insertShape(SlidesApp.ShapeType.ROUND_RECTANGLE, 30, 150, 420, 210);
-  metaBox.getFill().setSolidFill("#1E293B");
-  const metaTxt = metaBox.getText();
-  metaTxt.setText(`📋 TRIP & SERVICE METADATA\n\n• PNR Number: ${pnr}\n• Service Route: ${route}\n• Audit Date & Time: ${date}\n• Total Passengers: ${headcount}`);
-  metaTxt.getTextStyle().setFontFamily("Roboto").setFontSize(14).setForegroundColor("#F8FAFC");
-  metaTxt.getParagraphs()[0].getRange().getTextStyle().setFontSize(16).setBold(true).setForegroundColor("#38BDF8");
+  titleTxt.setText(`Audit Journey\nCoverage: ${route}\nPNR: ${pnr}`);
+  titleTxt.getTextStyle().setFontFamily("Roboto").setFontSize(28).setBold(true).setForegroundColor("#000000");
+  titleTxt.getParagraphStyle().setParagraphAlignment(SlidesApp.ParagraphAlignment.CENTER);
 
-  // Overall Score & Status Card Right
-  const scoreBox = coverSlide.insertShape(SlidesApp.ShapeType.ROUND_RECTANGLE, 470, 150, 220, 210);
-  scoreBox.getFill().setSolidFill("#059669"); // Emerald Green
-  const scoreTxt = scoreBox.getText();
-  scoreTxt.setText("AUDIT STATUS\n\n✅ VALIDATED\n\n⭐ EXECUTIVE GRADE");
-  scoreTxt.getTextStyle().setFontFamily("Roboto").setFontSize(16).setBold(true).setForegroundColor("#FFFFFF");
-
-  // -------------------------------------------------------------
-  // SLIDE 2: EXECUTIVE SUMMARY OF HIGHLIGHTS & GAPS
-  // -------------------------------------------------------------
-  const slide2 = pres.appendSlide(SlidesApp.PredefinedLayout.BLANK);
-  slide2.getBackground().setSolidFill("#F8FAFC");
-  
-  const s2Header = slide2.insertShape(SlidesApp.ShapeType.RECTANGLE, 0, 0, 720, 50);
-  s2Header.getFill().setSolidFill("#0045AD");
-  s2Header.getText().setText("✨ Key Audit Highlights & Actionable Gaps").getTextStyle().setFontFamily("Roboto").setFontSize(18).setBold(true).setForegroundColor("#FFFFFF");
-
-  let positiveNotes = [];
-  let gapNotes = [];
-  for (let k in audit) {
-    if (k.endsWith('_good') && audit[k] && audit[k] !== 'N/A') positiveNotes.push(audit[k]);
-    if (k.endsWith('_wrong') && audit[k] && audit[k] !== 'N/A') gapNotes.push(audit[k]);
+  // Bus Image Placeholder (bottom center)
+  try {
+    const busFile = DriveApp.getFileById('1QboGa9YN4eWMn75KmyWKE5misCfhrF6Y'); 
+    const busImg = coverSlide.insertImage(busFile.getBlob());
+    busImg.setLeft(120).setTop(220).setWidth(480).setHeight(170);
+  } catch (busErr) {
+    Logger.log('Bus image embed skipped: ' + busErr);
   }
 
-  // Positive Highlights Box
-  const posBox = slide2.insertShape(SlidesApp.ShapeType.ROUND_RECTANGLE, 30, 65, 320, 300);
-  posBox.getFill().setSolidFill("#F0FDF4");
-  posBox.getText().setText("💚 POSITIVE HIGHLIGHTS:\n\n" + (positiveNotes.length > 0 ? "• " + positiveNotes.slice(0, 5).join("\n• ") : "• Service met all standards cleanly.")).getTextStyle().setFontFamily("Roboto").setFontSize(12).setForegroundColor("#14532D");
-
-  // Gaps & Improvements Box
-  const gapBox = slide2.insertShape(SlidesApp.ShapeType.ROUND_RECTANGLE, 370, 65, 320, 300);
-  gapBox.getFill().setSolidFill("#FEF2F2");
-  gapBox.getText().setText("⚠️ AREAS FOR IMPROVEMENT:\n\n" + (gapNotes.length > 0 ? "• " + gapNotes.slice(0, 5).join("\n• ") : "• No critical gaps reported.")).getTextStyle().setFontFamily("Roboto").setFontSize(12).setForegroundColor("#7F1D1D");
-
   // -------------------------------------------------------------
-  // SLIDES 3-6: DETAILED SECTION-BY-SECTION CARD BREAKDOWN
+  // SLIDES: DETAILED SECTION-BY-SECTION (1 SLIDE PER SECTION)
   // -------------------------------------------------------------
   const sectionsList = [
     { id: 2, name: "Staff Behaviour & Professionalism" },
@@ -283,114 +455,269 @@ function generateAuditPresentation() {
     { id: 8, name: "Pilferage Check" },
     { id: 9, name: "Delay Adherence" },
     { id: 10, name: "Safety & Security" },
-    { id: 11, name: "Drop Responsibilities" }
+    { id: 11, name: "Drop Responsibilities" },
+    { id: 13, name: "Final Observations" }
   ];
 
-  // Group sections 3 per slide
-  for (let i = 0; i < sectionsList.length; i += 3) {
-    const chunk = sectionsList.slice(i, i + 3);
+  sectionsList.forEach(sec => {
     const secSlide = pres.appendSlide(SlidesApp.PredefinedLayout.BLANK);
-    secSlide.getBackground().setSolidFill("#F1F5F9");
+    secSlide.getBackground().setSolidFill("#F8FAFC");
 
-    const header = secSlide.insertShape(SlidesApp.ShapeType.RECTANGLE, 0, 0, 720, 45);
+    const header = secSlide.insertShape(SlidesApp.ShapeType.RECTANGLE, 0, 0, 720, 50);
     header.getFill().setSolidFill("#0F172A");
-    header.getText().setText(`📊 Detailed Audit Findings (Part ${Math.floor(i/3)+1})`).getTextStyle().setFontFamily("Roboto").setFontSize(16).setBold(true).setForegroundColor("#FFFFFF");
+    
+    let headerText = `Section ${sec.id}: ${sec.name}`;
+    if (sec.id === 11) {
+      headerText += ` | DBG: ${audit['s11_media'] ? audit['s11_media'].substring(0, 30) : 'EMPTY'}`;
+    }
+    
+    header.getText().setText(headerText).getTextStyle().setFontFamily("Roboto").setFontSize(18).setBold(true).setForegroundColor("#FFFFFF");
 
-    let cardY = 55;
-    chunk.forEach(sec => {
-      const card = secSlide.insertShape(SlidesApp.ShapeType.ROUND_RECTANGLE, 30, cardY, 660, 95);
-      card.getFill().setSolidFill("#FFFFFF");
+    // -------------------------------------------------------------
+    // LOGIC: Skip Section 8 if "No" to the first question
+    if (sec.id === 8 && audit['s8_q1'] === 'No') {
+      return; 
+    }
 
-      const goodVal = audit[`s${sec.id}_good`] || "Satisfactory";
-      const wrongVal = audit[`s${sec.id}_wrong`] || "No issues reported";
+    let issues = [];
+    for (let k in audit) {
+      if (k.startsWith(`s${sec.id}_`) && !k.endsWith('_desc') && !k.endsWith('_media') && !k.endsWith('_good') && !k.endsWith('_wrong')) {
+        const val = audit[k];
+        if (!val || val === "N/A" || val === "") continue;
 
-      const cardTxt = card.getText();
-      cardTxt.setText(`SECTION ${sec.id}: ${sec.name.toUpperCase()}\n• Positive: ${goodVal}\n• Gap/Feedback: ${wrongVal}`);
-      cardTxt.getTextStyle().setFontFamily("Roboto").setFontSize(11).setForegroundColor("#334155");
-      cardTxt.getParagraphs()[0].getRange().getTextStyle().setFontSize(13).setBold(true).setForegroundColor("#0045AD");
+        let isIssue = false;
+        let labelsToPush = [];
 
-      cardY += 105;
-    });
-  }
+        // 1. Special Fields
+        if (k === 's8_amount') {
+           isIssue = true;
+           labelsToPush.push("Approximate amount involved (\u20B9) - " + val);
+        }
+        else if (k === 's8_staff') {
+           isIssue = true;
+           labelsToPush.push("Staff member(s) involved - " + val);
+        }
+        else if (k === 's9_total_delay') {
+           isIssue = true;
+           labelsToPush.push("Total Delay (Minutes) - " + val);
+        }
+        // 2. Checkboxes (Array)
+        else if (Array.isArray(val) && val.length > 0 && val[0] !== "None" && val[0] !== "N/A") {
+           isIssue = true;
+           val.forEach(item => labelsToPush.push(item));
+        }
+        // 3. Radios (Yes answers mapped)
+        else if (val === "Yes" && NEGATIVE_STATEMENTS_MAP[k]) {
+           isIssue = true;
+           labelsToPush.push(NEGATIVE_STATEMENTS_MAP[k]);
+        }
+        // 4. Ratings (<= 3) - Only if it's a numeric string that isn't a special field
+        else if (!isNaN(parseInt(val)) && parseInt(val) <= 3) {
+           isIssue = true;
+           labelsToPush.push(NEGATIVE_STATEMENTS_MAP[k] || (labelMap[k] || k).replace(/\[.*?\]\s*/g, '').trim());
+        }
 
-  // -------------------------------------------------------------
-  // SLIDE 7+: MEDIA & VISUAL EVIDENCE GALLERY
-  // -------------------------------------------------------------
-  const mediaItems = [];
-  for (let k in audit) {
-    const val = audit[k];
-    if (!val) continue;
-    const valStr = String(val);
-    // Match _media fields OR any cell that contains a Google Drive file URL
-    if (k.endsWith('_media') || valStr.includes('drive.google.com/file/d/')) {
-      const urls = valStr.split('\n');
+        if (isIssue) {
+          labelsToPush.forEach(lbl => {
+            issues.push({
+              label: lbl,
+              desc: audit[`${k}_desc`] && audit[`${k}_desc`] !== "N/A" ? audit[`${k}_desc`] : ""
+            });
+          });
+        }
+      }
+    }
+
+    const mediaVal = audit[`s${sec.id}_media`];
+    let mediaUrls = [];
+    if (mediaVal) {
+      const urls = mediaVal.split('\n');
       urls.forEach(u => {
         u = u.trim();
-        if (u.startsWith('http')) {
-          mediaItems.push({ field: k, url: u });
-        }
+        if (u.startsWith('http')) mediaUrls.push(u);
       });
     }
-  }
 
-  if (mediaItems.length > 0) {
-    // Break media items into slides of 4 items each
-    for (let m = 0; m < mediaItems.length; m += 4) {
-      const mediaChunk = mediaItems.slice(m, m + 4);
-      const mediaSlide = pres.appendSlide(SlidesApp.PredefinedLayout.BLANK);
-      mediaSlide.getBackground().setSolidFill("#0F172A");
+    const totalCells = Math.min(Math.max(issues.length, mediaUrls.length), 10);
 
-      const mHeader = mediaSlide.insertShape(SlidesApp.ShapeType.RECTANGLE, 0, 0, 720, 45);
-      mHeader.getFill().setSolidFill("#0045AD");
-      mHeader.getText().setText(`📸 Audit Media Evidence Gallery (Page ${Math.floor(m/4)+1})`).getTextStyle().setFontFamily("Roboto").setFontSize(16).setBold(true).setForegroundColor("#FFFFFF");
+    if (totalCells === 0) {
+      const contentBox = secSlide.insertShape(SlidesApp.ShapeType.TEXT_BOX, 30, 70, 660, 300);
+      let debugText = "• No major issues reported (All ratings > 3 stars).";
+      if (sec.id === 11) {
+         debugText += `\n\n[DEBUG S11]: mediaVal is '${mediaVal || "UNDEFINED"}'`;
+      }
+      contentBox.getText().setText(debugText).getTextStyle().setFontFamily("Roboto").setFontSize(14).setForegroundColor("#334155");
+    } else {
+      const cols = totalCells <= 5 ? totalCells : Math.ceil(totalCells / 2);
+      const rows = totalCells <= 5 ? 1 : 2;
+      const startX = 20;
+      const startY = 60;
+      const spacing = 10;
+      const availWidth = 720 - (startX * 2); // 680
+      const availHeight = 405 - startY - 15; // 330
+      
+      const cellWidth = (availWidth - (spacing * (cols - 1))) / cols;
+      const cellHeight = (availHeight - (spacing * (rows - 1))) / rows;
 
-      let x = 30, y = 60, col = 0;
-      mediaChunk.forEach((item, idx) => {
-        try {
-          // Extract Google Drive file ID from URLs like:
-          // https://drive.google.com/file/d/FILE_ID/view
-          // https://drive.google.com/open?id=FILE_ID
-          let fileId = null;
-          const dMatch = item.url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-          const idMatch = item.url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-          if (dMatch) fileId = dMatch[1];
-          else if (idMatch) fileId = idMatch[1];
+      for (let i = 0; i < totalCells; i++) {
+        const row = Math.floor(i / cols);
+        const col = i % cols;
+        const x = startX + (col * (cellWidth + spacing));
+        const y = startY + (row * (cellHeight + spacing));
 
-          if (fileId) {
-            const file = DriveApp.getFileById(fileId);
-            const mime = file.getMimeType();
+        const issue = issues[i];
+        const url = mediaUrls[i];
 
-            if (mime.startsWith('image/')) {
-              // Embed actual photo image
-              const img = mediaSlide.insertImage(file.getBlob());
-              img.setLeft(x).setTop(y).setWidth(320).setHeight(170);
-            } else {
-              // Video / Audio preview card with hyperlink
-              const vBox = mediaSlide.insertShape(SlidesApp.ShapeType.ROUND_RECTANGLE, x, y, 320, 170);
-              vBox.getFill().setSolidFill("#1E293B");
-              const vTxt = vBox.getText();
-              vTxt.setText(`🎬 VIDEO / AUDIO EVIDENCE\n\nAttachment ${m + idx + 1}\nType: ${mime}\n\n👉 Click to Play in Google Drive`);
-              vTxt.getTextStyle().setFontFamily("Roboto").setFontSize(12).setForegroundColor("#E2E8F0");
-              vTxt.getParagraphs()[0].getRange().getTextStyle().setBold(true).setForegroundColor("#38BDF8");
-              vBox.setLinkUrl(item.url);
-            }
+        let currentY = y;
+        
+        if (issue) {
+          const titleBox = secSlide.insertShape(SlidesApp.ShapeType.TEXT_BOX, x, currentY, cellWidth, 25);
+          titleBox.getText().setText(`Issue ${i+1}: ${issue.label}`).getTextStyle().setFontFamily("Roboto").setFontSize(totalCells > 5 ? 8 : 10).setBold(true).setForegroundColor("#000000");
+          currentY += 25;
+
+          if (issue.desc) {
+            const descBox = secSlide.insertShape(SlidesApp.ShapeType.TEXT_BOX, x, currentY, cellWidth, 30);
+            descBox.getText().setText(`Desc: ${issue.desc}`).getTextStyle().setFontFamily("Roboto").setFontSize(totalCells > 5 ? 7 : 9).setForegroundColor("#334155");
+            currentY += 30;
           }
-        } catch (err) {
-          Logger.log("Media embed error for " + item.url + ": " + err);
-          // Fallback card if Drive file access restriction occurs
-          const fBox = mediaSlide.insertShape(SlidesApp.ShapeType.ROUND_RECTANGLE, x, y, 320, 170);
-          fBox.getFill().setSolidFill("#1E293B");
-          const fTxt = fBox.getText();
-          fTxt.setText(`📎 AUDIT ATTACHMENT ${m + idx + 1}\n\n👉 Click to open file in Drive`);
-          fTxt.getTextStyle().setFontFamily("Roboto").setFontSize(12).setForegroundColor("#38BDF8");
-          fBox.setLinkUrl(item.url);
-        }
+        } // Removed "Extra Media" else block
 
-        col++;
-        if (col % 2 === 0) { x = 30; y += 185; } else { x = 370; }
-      });
+        if (url) {
+          const mediaHeight = Math.max(10, (y + cellHeight) - currentY);
+          try {
+            let fileId = null;
+            const dMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+            const idMatch = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+            if (dMatch) fileId = dMatch[1];
+            else if (idMatch) fileId = idMatch[1];
+
+            if (fileId) {
+              const file = DriveApp.getFileById(fileId);
+              const mime = file.getMimeType();
+
+              if (mime.startsWith('image/')) {
+                const img = secSlide.insertImage(file.getBlob());
+                img.setLeft(x).setTop(currentY).setWidth(cellWidth).setHeight(mediaHeight);
+              } else {
+                const vBox = secSlide.insertShape(SlidesApp.ShapeType.ROUND_RECTANGLE, x, currentY, cellWidth, mediaHeight);
+                vBox.getFill().setSolidFill("#1E293B");
+                const vTxt = vBox.getText();
+                vTxt.setText(`🎬\nMedia ${i + 1}`);
+                vTxt.getTextStyle().setFontFamily("Roboto").setFontSize(8).setForegroundColor("#38BDF8").setBold(true);
+                vTxt.getParagraphStyle().setParagraphAlignment(SlidesApp.ParagraphAlignment.CENTER);
+                vBox.setLinkUrl(url);
+              }
+            }
+          } catch (err) {
+            Logger.log("Media embed error for " + url + ": " + err);
+            const fBox = secSlide.insertShape(SlidesApp.ShapeType.ROUND_RECTANGLE, x, currentY, cellWidth, mediaHeight);
+            fBox.getFill().setSolidFill("#1E293B");
+            const fTxt = fBox.getText();
+            fTxt.setText(`📎\nAttachment ${i + 1}`);
+            fTxt.getTextStyle().setFontFamily("Roboto").setFontSize(8).setForegroundColor("#38BDF8").setBold(true);
+            fTxt.getParagraphStyle().setParagraphAlignment(SlidesApp.ParagraphAlignment.CENTER);
+            fBox.setLinkUrl(url);
+          }
+        }
+      }
+    }
+    
+    addLogoWatermark(secSlide);
+  });
+
+  // -------------------------------------------------------------
+  // SLIDE: PASSENGER FEEDBACKS (Section 12)
+  // -------------------------------------------------------------
+  const passIds = [];
+  for (let k in audit) {
+    if (k.startsWith('p_name_')) {
+      passIds.push(k.replace('p_name_', ''));
     }
   }
+
+  if (passIds.length > 0) {
+    const passSlide = pres.appendSlide(SlidesApp.PredefinedLayout.BLANK);
+    passSlide.getBackground().setSolidFill("#F8FAFC");
+    
+    const passHeader = passSlide.insertShape(SlidesApp.ShapeType.RECTANGLE, 0, 0, 720, 50);
+    passHeader.getFill().setSolidFill("#0F172A");
+    passHeader.getText().setText("Passenger Feedbacks").getTextStyle().setFontFamily("Roboto").setFontSize(18).setBold(true).setForegroundColor("#FFFFFF");
+
+    let passText = "";
+
+    passIds.forEach(id => {
+      const pName = audit[`p_name_${id}`];
+      if (pName && pName !== 'N/A') {
+        passText += `Passenger Name - ${pName}\n`;
+        passText += `Seat Type - ${audit[`p_seatType_${id}`] || 'N/A'}\n`;
+        passText += `Seat No. - ${audit[`p_seatNo_${id}`] || 'N/A'}\n`;
+        const goodF = audit[`p_good_${id}`] || 'None';
+        const badF = audit[`p_wrong_${id}`] || 'None';
+        passText += `Positive Feedback(s)\n• ${goodF}\n`;
+        passText += `Negative Feedback(s)\n• ${badF}\n\n`;
+      }
+    });
+
+    if (passText) {
+       passBox.getText().setText(passText).getTextStyle().setFontFamily("Roboto").setFontSize(11).setForegroundColor("#334155");
+    }
+    
+    addLogoWatermark(passSlide);
+  }
+
+
+
+  // -------------------------------------------------------------
+  // FINAL SLIDE: OVERALL AUDIT SUMMARY
+  // -------------------------------------------------------------
+  const summarySlide = pres.appendSlide(SlidesApp.PredefinedLayout.BLANK);
+  summarySlide.getBackground().setSolidFill("#FFFFFF");
+  
+  const sHeaderBox = summarySlide.insertShape(SlidesApp.ShapeType.TEXT_BOX, 0, 10, 720, 50);
+  const sHeaderTxt = sHeaderBox.getText();
+  sHeaderTxt.setText("Overall Audit Summary");
+  sHeaderTxt.getParagraphStyle().setParagraphAlignment(SlidesApp.ParagraphAlignment.CENTER);
+  sHeaderTxt.getTextStyle().setFontFamily("Roboto").setFontSize(28).setBold(true).setForegroundColor("#4285F4"); // Blue
+
+  let positiveNotes = [];
+  let gapNotes = [];
+  
+  // 1 bullet point for each section (2 to 11, and 13)
+  const summarySections = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13];
+  summarySections.forEach(sid => {
+    const pVal = audit[`s${sid}_good`];
+    const gVal = audit[`s${sid}_wrong`];
+    if (pVal && pVal !== 'N/A' && pVal.trim() !== '') {
+      positiveNotes.push(pVal);
+    }
+    if (gVal && gVal !== 'N/A' && gVal.trim() !== '') {
+      gapNotes.push(gVal);
+    }
+  });
+
+  const posTitleBox = summarySlide.insertShape(SlidesApp.ShapeType.RECTANGLE, 70, 70, 260, 35);
+  posTitleBox.getFill().setTransparent();
+  posTitleBox.getBorder().getLineFill().setSolidFill("#FACC15");
+  posTitleBox.getBorder().setWeight(2);
+  posTitleBox.getText().setText("What Went Good").getTextStyle().setFontFamily("Roboto").setFontSize(16).setBold(true).setForegroundColor("#000000");
+  posTitleBox.getText().getParagraphStyle().setParagraphAlignment(SlidesApp.ParagraphAlignment.CENTER);
+
+  const posBox = summarySlide.insertShape(SlidesApp.ShapeType.TEXT_BOX, 30, 110, 320, 240);
+  posBox.getText().setText(positiveNotes.length > 0 ? "• " + positiveNotes.slice(0, 8).join("\n• ") : "• Service met all standards cleanly.");
+  posBox.getText().getTextStyle().setFontFamily("Roboto").setFontSize(10).setForegroundColor("#333333");
+
+  const gapTitleBox = summarySlide.insertShape(SlidesApp.ShapeType.RECTANGLE, 390, 70, 260, 35);
+  gapTitleBox.getFill().setTransparent();
+  gapTitleBox.getBorder().getLineFill().setSolidFill("#FACC15");
+  gapTitleBox.getBorder().setWeight(2);
+  gapTitleBox.getText().setText("What Went Wrong").getTextStyle().setFontFamily("Roboto").setFontSize(16).setBold(true).setForegroundColor("#000000");
+  gapTitleBox.getText().getParagraphStyle().setParagraphAlignment(SlidesApp.ParagraphAlignment.CENTER);
+
+  const gapBox = summarySlide.insertShape(SlidesApp.ShapeType.TEXT_BOX, 370, 110, 320, 240);
+  gapBox.getText().setText(gapNotes.length > 0 ? "• " + gapNotes.slice(0, 8).join("\n• ") : "• No critical gaps reported.");
+  gapBox.getText().getTextStyle().setFontFamily("Roboto").setFontSize(10).setForegroundColor("#333333");
+
+  addLogoWatermark(summarySlide);
 
   // Finalize
   pres.saveAndClose();
@@ -414,4 +741,49 @@ function generateAuditPresentation() {
 function getOrCreateFolder(n) { const f = DriveApp.getFoldersByName(n); return f.hasNext() ? f.next() : DriveApp.createFolder(n); }
 function getOrCreateSubFolder(p, n) { const f = p.getFoldersByName(n); return f.hasNext() ? f.next() : p.createFolder(n); }
 
+// -------------------------------------------------------------
+// LOGO WATERMARK HELPER
+// -------------------------------------------------------------
+function addLogoWatermark(slide) {
+  try {
+    const logoFile = DriveApp.getFileById(LOGO_DRIVE_ID);
+    const logoImg = slide.insertImage(logoFile.getBlob());
+    logoImg.setLeft(580).setTop(360).setWidth(120).setHeight(35); // Small size, bottom right
+  } catch (e) {
+    // Silently fail if logo cannot be loaded
+  }
+}
 
+// -------------------------------------------------------------
+// GEMINI API HELPER
+// -------------------------------------------------------------
+function callGemini(prompt) {
+  if (!GEMINI_API_KEY || GEMINI_API_KEY === "YOUR_GEMINI_API_KEY") {
+    return "LLM API Key missing. Please set GEMINI_API_KEY.";
+  }
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+  const payload = {
+    "contents": [{"parts": [{"text": prompt}]}],
+    "generationConfig": {
+      "temperature": 0.3
+    }
+  };
+  const options = {
+    "method": "post",
+    "contentType": "application/json",
+    "payload": JSON.stringify(payload),
+    "muteHttpExceptions": true
+  };
+  
+  try {
+    const res = UrlFetchApp.fetch(url, options);
+    const json = JSON.parse(res.getContentText());
+    if (json.candidates && json.candidates.length > 0) {
+      return json.candidates[0].content.parts[0].text.trim();
+    }
+    return "Could not generate summary.";
+  } catch (e) {
+    Logger.log("Gemini Error: " + e);
+    return "Error calling LLM: " + e.message;
+  }
+}

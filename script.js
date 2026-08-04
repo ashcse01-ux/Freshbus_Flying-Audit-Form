@@ -2138,6 +2138,10 @@ class FreshBusAudit {
     }
 
     setupEventListeners() {
+        const form = document.getElementById('audit-form');
+        if (form) {
+            form.addEventListener('submit', e => e.preventDefault());
+        }
         this.elements.btnNext.addEventListener('click', () => this.nextStep());
         this.elements.btnBack.addEventListener('click', () => this.prevStep());
         this.elements.btnSubmit.addEventListener('click', () => this.showPreview());
@@ -3059,8 +3063,34 @@ class FreshBusAudit {
                 }
             }
 
+            // Sanitize formData so Google Sheets always receives clean, readable strings
+            const sanitizedResponses = {};
+            for (const key in this.formData) {
+                const val = this.formData[key];
+
+                if (key === 'passengers' && Array.isArray(val)) {
+                    // Format passenger list as numbered, labelled rows
+                    sanitizedResponses[key] = val.map((p, idx) => {
+                        const parts = [];
+                        if (p.name)     parts.push(`Name: ${p.name}`);
+                        if (p.seatType) parts.push(`Seat Type: ${p.seatType}`);
+                        if (p.seatNo)   parts.push(`Seat No: ${p.seatNo}`);
+                        if (p.feedback) parts.push(`Feedback: ${p.feedback}`);
+                        return `Passenger ${idx + 1} → ${parts.length ? parts.join(' | ') : 'No details'}`;
+                    }).join('\n');
+                } else if (Array.isArray(val)) {
+                    // Flat array of primitives (checkbox selections) → comma-separated
+                    sanitizedResponses[key] = val.join(', ');
+                } else if (val !== null && typeof val === 'object') {
+                    sanitizedResponses[key] = JSON.stringify(val);
+                } else {
+                    sanitizedResponses[key] = val;
+                }
+            }
+
+
             const payload = {
-                responses: this.formData,
+                responses: sanitizedResponses,
                 files: cleanFilesData,
                 headerMap: this.generateHeaderMap(),
                 sectionMap: this.generateSectionMap()
@@ -3129,10 +3159,41 @@ class FreshBusAudit {
 
     fileToBase64(file) {
         return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result.split(',')[1]);
-            reader.onerror = error => reject(error);
+            if (!file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = error => reject(error);
+                return;
+            }
+
+            const img = new Image();
+            const url = URL.createObjectURL(file);
+            img.onload = () => {
+                URL.revokeObjectURL(url);
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+                
+                const MAX = 1024;
+                if (width > height && width > MAX) {
+                    height *= MAX / width;
+                    width = MAX;
+                } else if (height > MAX) {
+                    width *= MAX / height;
+                    height = MAX;
+                }
+                
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.6);
+                resolve(dataUrl.split(',')[1]);
+            };
+            img.onerror = () => reject(new Error('Image load error'));
+            img.src = url;
         });
     }
 
