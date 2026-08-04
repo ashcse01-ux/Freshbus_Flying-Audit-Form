@@ -167,7 +167,11 @@ function doPost(e) {
           }
         });
         if (urls.length > 0) {
-          fileUrls[fieldId] = urls.join('\n');
+          const fileString = urls.join('\n');
+          fileUrls[fieldId] = fileString;
+          if (payload.headerMap && payload.headerMap[fieldId]) {
+            fileUrls[payload.headerMap[fieldId]] = fileString;
+          }
         }
       }
     }
