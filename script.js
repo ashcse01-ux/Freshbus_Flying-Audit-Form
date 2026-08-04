@@ -3715,11 +3715,15 @@ class FreshBusAudit {
 
     fileToBase64(file) {
         return new Promise((resolve, reject) => {
-            if (!file.type.startsWith('image/')) {
+            const fallbackReader = () => {
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
                 reader.onload = () => resolve(reader.result.split(',')[1]);
                 reader.onerror = error => reject(error);
+            };
+
+            if (!file.type.startsWith('image/')) {
+                fallbackReader();
                 return;
             }
 
@@ -3727,28 +3731,36 @@ class FreshBusAudit {
             const url = URL.createObjectURL(file);
             img.onload = () => {
                 URL.revokeObjectURL(url);
-                const canvas = document.createElement('canvas');
-                let width = img.width;
-                let height = img.height;
+                try {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
 
-                const MAX = 1024;
-                if (width > height && width > MAX) {
-                    height *= MAX / width;
-                    width = MAX;
-                } else if (height > MAX) {
-                    width *= MAX / height;
-                    height = MAX;
+                    const MAX = 1024;
+                    if (width > height && width > MAX) {
+                        height *= MAX / width;
+                        width = MAX;
+                    } else if (height > MAX) {
+                        width *= MAX / height;
+                        height = MAX;
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.6);
+                    resolve(dataUrl.split(',')[1]);
+                } catch (e) {
+                    console.warn("Canvas compression failed, falling back to raw file read:", e);
+                    fallbackReader();
                 }
-
-                canvas.width = width;
-                canvas.height = height;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, width, height);
-
-                const dataUrl = canvas.toDataURL('image/jpeg', 0.6);
-                resolve(dataUrl.split(',')[1]);
             };
-            img.onerror = () => reject(new Error('Image load error'));
+            img.onerror = () => {
+                console.warn("Image onload failed, falling back to raw file read");
+                fallbackReader();
+            };
             img.src = url;
         });
     }

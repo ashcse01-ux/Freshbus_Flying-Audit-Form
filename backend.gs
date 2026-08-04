@@ -151,30 +151,45 @@ function doPost(e) {
     const fileUrls = {};
     const root = getOrCreateFolder(ROOT_FOLDER);
     const auditFolder = getOrCreateSubFolder(root, auditID);
+    // Force all images/videos to be saved in a single "final_observation" folder
+    const targetFolder = getOrCreateSubFolder(auditFolder, "final_observation");
 
     if (payload.files) {
       for (let fieldId in payload.files) {
-        const sectionName = payload.sectionMap ? payload.sectionMap[fieldId] : "General Uploads";
-        const folder = getOrCreateSubFolder(auditFolder, sectionName);
         const files = payload.files[fieldId];
         const urls = [];
         files.forEach(f => {
-          const blob = Utilities.newBlob(Utilities.base64Decode(f.base64), f.type, f.name);
-          const file = folder.createFile(blob);
-          urls.push(file.getUrl());
+          try {
+            const blob = Utilities.newBlob(Utilities.base64Decode(f.base64), f.type, f.name);
+            const file = targetFolder.createFile(blob);
+            urls.push(file.getUrl());
+          } catch (fileErr) {
+            Logger.log("Failed to save file: " + f.name + ", error: " + fileErr);
+          }
         });
-        fileUrls[fieldId] = urls.join('\n');
+        if (urls.length > 0) {
+          fileUrls[fieldId] = urls.join('\n');
+        }
       }
     }
 
     // 2. SAVE DATA TO SHEET
+    // Clean res of any empty file/media placeholders so they don't overwrite fileUrls
+    const cleanRes = {};
+    for (let k in res) {
+      if (k.endsWith('_media') && !res[k]) {
+        continue;
+      }
+      cleanRes[k] = res[k];
+    }
+
     const fullData = { 
       'Status': 'PENDING', 
       'Timestamp': new Date().toLocaleString(), 
       'PNR': res.pnr, 
       'Route': res.service_route, 
       'Audit_ID': auditID, 
-      ...res, 
+      ...cleanRes, 
       ...fileUrls 
     };
     
