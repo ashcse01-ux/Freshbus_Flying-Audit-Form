@@ -4,7 +4,7 @@
 
 const CONFIG = {
     // IMPORTANT: Replace this with your Google Apps Script Web App URL after deployment
-    GAS_URL: 'https://script.google.com/macros/s/AKfycbxhIt_PfPvrELGZc0m-qDivEEqt04sIz7iAOMh496Mx-d855-uxLlRPWITfGbVr9WU/exec'
+    GAS_URL: 'https://script.google.com/macros/s/AKfycby_HkiKhgXas8w7vJnqZgJ269uC7il--b7XwnElXVBFKdtDiR_3AeMRVTbU3qhaG4Kj/exec'
 };
 
 const SECTIONS_CONFIG = [
@@ -3662,7 +3662,9 @@ class FreshBusAudit {
             try {
                 const response = await fetch(CONFIG.GAS_URL, {
                     method: 'POST',
-                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8'
+                    },
                     body: JSON.stringify(payload)
                 });
 

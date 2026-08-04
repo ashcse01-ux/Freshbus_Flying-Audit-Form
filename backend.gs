@@ -213,7 +213,38 @@ function doPost(e) {
     }
     
     const headers = pendingSheet.getRange(1, 1, 1, pendingSheet.getLastColumn()).getValues()[0];
-    const newRow = headers.map(id => fullData[id] !== undefined ? fullData[id] : "");
+    const labels = pendingSheet.getRange(2, 1, 1, pendingSheet.getLastColumn()).getValues()[0];
+    
+    // Normalize fullData keys for clean substring matching (ignoring spacing, brackets, casing)
+    const normalizedData = {};
+    for (let key in fullData) {
+      const normKey = key.toLowerCase().replace(/[^a-z0-9]/g, '');
+      normalizedData[normKey] = fullData[key];
+    }
+    
+    const newRow = headers.map((id, index) => {
+      // 1. Direct match by technical ID or label
+      if (fullData[id] !== undefined && fullData[id] !== "") {
+        return fullData[id];
+      }
+      const label = labels[index] || "";
+      if (fullData[label] !== undefined && fullData[label] !== "") {
+        return fullData[label];
+      }
+      
+      // 2. Normalized Substring Match
+      const normId = id.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const normLabel = label.toLowerCase().replace(/[^a-z0-9]/g, '');
+      
+      for (let normKey in normalizedData) {
+        if (normKey && (normId.includes(normKey) || normLabel.includes(normKey) || normKey.includes(normId) || normKey.includes(normLabel))) {
+          return normalizedData[normKey];
+        }
+      }
+      
+      return "";
+    });
+    
     pendingSheet.appendRow(newRow);
     
     return ContentService.createTextOutput("Success");
