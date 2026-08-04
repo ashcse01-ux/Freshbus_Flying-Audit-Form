@@ -151,17 +151,16 @@ function doPost(e) {
     const fileUrls = {};
     const root = getOrCreateFolder(ROOT_FOLDER);
     const auditFolder = getOrCreateSubFolder(root, auditID);
-    // Force all images/videos to be saved in a single "final_observation" folder
-    const targetFolder = getOrCreateSubFolder(auditFolder, "final_observation");
 
     if (payload.files) {
       for (let fieldId in payload.files) {
+        const folder = getOrCreateSubFolder(auditFolder, "final_observation");
         const files = payload.files[fieldId];
         const urls = [];
         files.forEach(f => {
           try {
             const blob = Utilities.newBlob(Utilities.base64Decode(f.base64), f.type, f.name);
-            const file = targetFolder.createFile(blob);
+            const file = folder.createFile(blob);
             urls.push(file.getUrl());
           } catch (fileErr) {
             Logger.log("Failed to save file: " + f.name + ", error: " + fileErr);
@@ -174,22 +173,13 @@ function doPost(e) {
     }
 
     // 2. SAVE DATA TO SHEET
-    // Clean res of any empty file/media placeholders so they don't overwrite fileUrls
-    const cleanRes = {};
-    for (let k in res) {
-      if (k.endsWith('_media') && !res[k]) {
-        continue;
-      }
-      cleanRes[k] = res[k];
-    }
-
     const fullData = { 
       'Status': 'PENDING', 
       'Timestamp': new Date().toLocaleString(), 
       'PNR': res.pnr, 
       'Route': res.service_route, 
       'Audit_ID': auditID, 
-      ...cleanRes, 
+      ...res, 
       ...fileUrls 
     };
     
@@ -218,39 +208,8 @@ function doPost(e) {
       pendingSheet.setFrozenColumns(5);
     }
     
-    let headers = pendingSheet.getRange(1, 1, 1, pendingSheet.getLastColumn()).getValues()[0];
-    
-    // Check if there are new keys in fullData that aren't in headers
-    const newKeys = Object.keys(fullData).filter(k => !headers.includes(k));
-    if (newKeys.length > 0) {
-      const lastCol = pendingSheet.getLastColumn();
-      pendingSheet.getRange(1, lastCol + 1, 1, newKeys.length).setValues([newKeys]);
-      
-      if (payload.headerMap) {
-        pendingSheet.getRange(2, lastCol + 1, 1, newKeys.length).setValues([newKeys.map(k => payload.headerMap[k] || k)]);
-      } else {
-        pendingSheet.getRange(2, lastCol + 1, 1, newKeys.length).setValues([newKeys]);
-      }
-      
-      headers = headers.concat(newKeys); // Update headers array
-    }
-
-    const serializeValue = (val) => {
-      if (val === undefined || val === null) return "";
-      if (Array.isArray(val)) {
-        // Flat array of primitives → join with comma (e.g. checkbox selections)
-        if (val.every(item => typeof item !== 'object' || item === null)) {
-          return val.join(', ');
-        }
-        // Nested array or array of objects (e.g. passengers) → JSON string
-        return JSON.stringify(val);
-      }
-      if (typeof val === 'object') {
-        return JSON.stringify(val);
-      }
-      return val;
-    };
-    const newRow = headers.map(id => serializeValue(fullData[id]));
+    const headers = pendingSheet.getRange(1, 1, 1, pendingSheet.getLastColumn()).getValues()[0];
+    const newRow = headers.map(id => fullData[id] !== undefined ? fullData[id] : "");
     pendingSheet.appendRow(newRow);
     
     return ContentService.createTextOutput("Success");

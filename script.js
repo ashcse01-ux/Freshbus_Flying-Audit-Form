@@ -4,7 +4,7 @@
 
 const CONFIG = {
     // IMPORTANT: Replace this with your Google Apps Script Web App URL after deployment
-    GAS_URL: 'https://script.google.com/macros/s/AKfycbz-F3fQ2w5rhFIlqArRG3muX4yEpNEaMjelVR6PqilOd5X2vgFpraf__t_3gsIprB0D/exec'
+    GAS_URL: 'https://script.google.com/macros/s/AKfycbzZpZ47zWnMttPNZNad-o0UE3OiJS-GUr6W_CMbRQeEWmXn0WJrIQTY-OnZPwLepNvE/exec'
 };
 
 const SECTIONS_CONFIG = [
@@ -3641,6 +3641,13 @@ class FreshBusAudit {
                     sanitizedResponses[key] = JSON.stringify(val);
                 } else {
                     sanitizedResponses[key] = val;
+                }
+            }
+
+            // Remove empty media placeholder keys from responses to prevent backend collisions
+            for (const key in sanitizedResponses) {
+                if (key.endsWith('_media')) {
+                    delete sanitizedResponses[key];
                 }
             }
 
